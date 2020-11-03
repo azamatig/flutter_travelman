@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertravelman/services/auth_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -48,11 +50,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 textAlign: TextAlign.left,
                               ),
                             ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.edit,
+                            Row(
+                              children: [
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.edit,
+                                    ),
+                                    onPressed: () => {}),
+                                SizedBox(
+                                  width: 15,
                                 ),
-                                onPressed: () => {}),
+                                IconButton(
+                                    icon: Icon(
+                                      FontAwesomeIcons.signOutAlt,
+                                    ),
+                                    onPressed: () => {
+                                          AuthService.logout(),
+                                          Navigator.pop(context),
+                                        }),
+                              ],
+                            ),
                           ],
                         ),
                         Row(

@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/Login_screen.dart';
-import 'package:fluttertravelman/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:getwidget/getwidget.dart';
+
+import 'screens/initial_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: LoginScreen(),
-        routes: <String, WidgetBuilder>{
-          '/login': (BuildContext context) => LoginScreen(),
-          '/main': (BuildContext context) => MainScreen(),
+    return FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return GFLoader();
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return InitialScreen();
+          }
+          return GFLoader(type: GFLoaderType.ios);
         });
   }
 }

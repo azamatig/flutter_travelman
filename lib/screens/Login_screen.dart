@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/home_screen.dart';
+import 'package:fluttertravelman/screens/enter_app_screen.dart';
+import 'package:fluttertravelman/screens/home_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/Sign_up_screen.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -55,7 +57,7 @@ class LoginScreen extends StatelessWidget {
                 shape: GFButtonShape.pills,
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()));
+                      MaterialPageRoute(builder: (context) => SignUpScreen()));
                 },
                 child: Text(
                   'Sign up',
@@ -78,8 +80,10 @@ class LoginScreen extends StatelessWidget {
                 size: 50,
                 shape: GFButtonShape.pills,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EnterAppScreen()));
                 },
                 child: Text(
                   'Log in',

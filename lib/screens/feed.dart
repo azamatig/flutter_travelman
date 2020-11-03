@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/offer_details.dart';
-import 'package:fluttertravelman/poisk_biletov.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offer_details.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/poisk_biletov.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FeedScreen extends StatefulWidget {
+  static final String id = 'feed_screen';
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }

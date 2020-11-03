@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/feed.dart';
-import 'package:fluttertravelman/profile_screen.dart';
-import 'package:fluttertravelman/second_screen.dart';
-import 'package:fluttertravelman/third_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/feed.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/profile_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/second_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/third_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /*
