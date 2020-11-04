@@ -134,10 +134,16 @@ class _FeedScreenState extends State<FeedScreen> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(bottom: 8.0, left: 10),
-                            child: Container(
-                                width: 40,
-                                height: 35,
-                                child: Icon(FontAwesomeIcons.heart)),
+                            child: GestureDetector(
+                              onTap: () {
+                              },
+                              child: Container(
+                                  width: 40,
+                                  height: 35,
+                                  child: Icon(
+                                    FontAwesomeIcons.heart,
+                                  )),
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
@@ -203,7 +209,7 @@ class _FeedScreenState extends State<FeedScreen> {
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Text(
-          'Travelling to?',
+          'Куда едем?',
           style: GoogleFonts.poppins(
               color: Colors.black, fontWeight: FontWeight.w700),
         ),

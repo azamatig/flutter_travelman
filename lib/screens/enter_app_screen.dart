@@ -31,7 +31,7 @@ class _EnterAppScreenState extends State<EnterAppScreen> {
                     width: 15,
                   ),
                   Text(
-                    'back',
+                    'назад',
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w700, fontSize: 12),
                   ),
@@ -94,7 +94,7 @@ class _EnterAppScreenState extends State<EnterAppScreen> {
                         _login();
                       },
                       child: Text(
-                        'Sign up',
+                        'Войти',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w900,
                             fontSize: 24,

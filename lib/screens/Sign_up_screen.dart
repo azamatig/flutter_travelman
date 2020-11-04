@@ -31,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: 15,
                   ),
                   Text(
-                    'back',
+                    'назад',
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w700, fontSize: 12),
                   ),
@@ -110,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _submit();
                       },
                       child: Text(
-                        'Sign up',
+                        'Регистрация',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w900,
                             fontSize: 24,

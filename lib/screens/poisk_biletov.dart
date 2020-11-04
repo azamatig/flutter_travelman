@@ -6,6 +6,8 @@ import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PoiskBiletov extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+  String _fromPlace, _toPLace, _fromDate, _toDate;
   Color pinYellow = Color.fromARGB(255, 255, 213, 0);
   Color pinBlue = Color.fromARGB(255, 57, 90, 255);
   @override
@@ -185,6 +187,36 @@ class PoiskBiletov extends StatelessWidget {
                       ),
                       Text(
                         'Economy',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+          Positioned(
+              bottom: 200,
+              left: 20,
+              child: Container(
+                color: Colors.white,
+                width: 390,
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.plane,
+                        color: Colors.black,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 25,
+                      ),
+                      Text(
+                        'Business',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
