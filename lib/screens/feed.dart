@@ -135,8 +135,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             padding:
                                 const EdgeInsets.only(bottom: 8.0, left: 10),
                             child: GestureDetector(
-                              onTap: () {
-                              },
+                              onTap: () {},
                               child: Container(
                                   width: 40,
                                   height: 35,

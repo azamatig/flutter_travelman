@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/screens//home_screen.dart';
+import 'package:fluttertravelman/screens/home_screen.dart';
 import 'package:fluttertravelman/screens/Login_screen.dart';
 import 'package:fluttertravelman/screens/enter_app_screen.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +37,7 @@ class InitialScreen extends StatelessWidget {
         ),
         home: _getScreenId(),
         routes: {
+          '/home': (context) => MainScreen(),
           EnterAppScreen.id: (context) => EnterAppScreen(),
           SignUpScreen.id: (context) => SignUpScreen(),
           FeedScreen.id: (context) => FeedScreen(),

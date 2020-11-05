@@ -1,18 +1,73 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/bilet_confirmation.dart';
+import 'package:fluttertravelman/models/lead_model.dart';
+import 'package:fluttertravelman/models/user_data.dart';
+import 'package:fluttertravelman/screens/thank_you_page.dart';
+import 'package:fluttertravelman/services/database_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class PoiskBiletov extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  String _fromPlace, _toPLace, _fromDate, _toDate;
-  Color pinYellow = Color.fromARGB(255, 255, 213, 0);
-  Color pinBlue = Color.fromARGB(255, 57, 90, 255);
+class PoiskBiletov extends StatefulWidget {
+  @override
+  _PoiskBiletovState createState() => _PoiskBiletovState();
+}
+
+class _PoiskBiletovState extends State<PoiskBiletov> {
+  String _fromPlace, _toPlace;
+  String _type;
+  TextEditingController _fromPlaceController = TextEditingController();
+  TextEditingController _toPlaceController = TextEditingController();
+  final Color pinYellow = Color.fromARGB(255, 255, 213, 0);
+  final Color pinBlue = Color.fromARGB(255, 57, 90, 255);
+
+  DateTime selectedDepDate = DateTime.now();
+  DateTime selectedArrDate = DateTime.now();
+
+  Future<Null> _selectDepDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDepDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDepDate)
+      setState(() {
+        selectedDepDate = picked;
+      });
+  }
+
+  Future<Null> _selectArrDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedArrDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedArrDate)
+      setState(() {
+        selectedArrDate = picked;
+      });
+  }
+
+  _addLead(context) {
+    Lead lead = Lead(
+      toPlace: _toPlace,
+      fromPlace: _fromPlace,
+      comment: 'lead from app',
+      authorId: Provider.of<UserData>(context, listen: false).currentUserId,
+      timestamp: Timestamp.fromDate(DateTime.now()),
+      toDate: selectedDepDate,
+      fromDate: selectedArrDate,
+      type: _type,
+    );
+    DatabaseService.createLead(lead);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Positioned(
@@ -62,6 +117,32 @@ class PoiskBiletov extends StatelessWidget {
                         fontSize: 13,
                         color: Colors.grey[500]),
                   ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Container(
+                    width: 250,
+                    child: TextField(
+                      controller: _fromPlaceController,
+                      style: TextStyle(fontSize: 13.0),
+                      decoration: InputDecoration(
+                          labelText: 'Введите страну вылета',
+                          labelStyle: GoogleFonts.poppins(
+                              fontSize: 13,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          )),
+                      onChanged: (input) => _fromPlace = input,
+                    ),
+                  ),
                 ],
               )),
           Positioned(
@@ -84,6 +165,31 @@ class PoiskBiletov extends StatelessWidget {
                         fontSize: 13,
                         color: Colors.grey[500]),
                   ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                      width: 250,
+                      child: TextField(
+                        controller: _toPlaceController,
+                        style: TextStyle(fontSize: 13.0),
+                        decoration: InputDecoration(
+                            labelText: 'Введите страну прилета',
+                            labelStyle: GoogleFonts.poppins(
+                                fontSize: 13,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            )),
+                        onChanged: (input) => _toPlace = input,
+                      )),
                 ],
               )),
           Positioned(
@@ -115,49 +221,55 @@ class PoiskBiletov extends StatelessWidget {
           Positioned(
               top: 300,
               left: 40,
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.calendarAlt,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Departure date',
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: Colors.grey[500]),
-                  ),
-                ],
+              child: GestureDetector(
+                onTap: () => _selectDepDate(context),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.calendarAlt,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Вылет " + "${selectedDepDate.toLocal()}".split(' ')[0],
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Colors.grey[500]),
+                    ),
+                  ],
+                ),
               )),
           Positioned(
               top: 350,
               left: 40,
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.calendarAlt,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Return date',
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: Colors.grey[500]),
-                  ),
-                ],
+              child: GestureDetector(
+                onTap: () => _selectArrDate(context),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.calendarAlt,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Прилет " + "${selectedArrDate.toLocal()}".split(' ')[0],
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Colors.grey[500]),
+                    ),
+                  ],
+                ),
               )),
           Positioned(
-              bottom: 330,
+              bottom: 370,
               left: 40,
               child: Text(
                 'Class',
@@ -167,62 +279,72 @@ class PoiskBiletov extends StatelessWidget {
                     color: Colors.black),
               )),
           Positioned(
-              bottom: 250,
+              bottom: 290,
               left: 20,
-              child: Container(
-                color: Colors.white,
-                width: 390,
-                height: 50,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        FontAwesomeIcons.plane,
-                        color: Colors.black,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 25,
-                      ),
-                      Text(
-                        'Economy',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            color: Colors.black54),
-                      ),
-                    ],
+              child: GestureDetector(
+                onTap: () {
+                  _type = 'ECONOMY';
+                },
+                child: Container(
+                  color: Colors.white,
+                  width: 390,
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.plane,
+                          color: Colors.black,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Text(
+                          'Economy',
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: Colors.black54),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )),
           Positioned(
-              bottom: 200,
+              bottom: 230,
               left: 20,
-              child: Container(
-                color: Colors.white,
-                width: 390,
-                height: 50,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        FontAwesomeIcons.plane,
-                        color: Colors.black,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 25,
-                      ),
-                      Text(
-                        'Business',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            color: Colors.black54),
-                      ),
-                    ],
+              child: GestureDetector(
+                onTap: () {
+                  _type = 'BUSINESS';
+                },
+                child: Container(
+                  color: Colors.white,
+                  width: 390,
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.plane,
+                          color: Colors.black,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Text(
+                          'Business',
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: Colors.black54),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )),
@@ -235,11 +357,10 @@ class PoiskBiletov extends StatelessWidget {
                 color: pinBlue,
                 size: 40,
                 shape: GFButtonShape.pills,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TicketConfirmation()));
+                onPressed: () async {
+                  await _addLead(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ThankYouPage()));
                 },
                 child: Icon(
                   FontAwesomeIcons.arrowRight,
@@ -251,9 +372,9 @@ class PoiskBiletov extends StatelessWidget {
           ),
           Positioned(
             bottom: 90,
-            left: 162,
+            left: 150,
             child: Text(
-              'Search flights',
+              'Отправить запрос',
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w800, fontSize: 12),
             ),

@@ -2,34 +2,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Lead {
   final String id;
-  final String offerUrl;
+  final String fromPlace;
+  final String toPlace;
   final String comment;
-  final dynamic likes;
   final String authorId;
   final Timestamp timestamp;
-  final String fromDate;
-  final String toDate;
+  final DateTime fromDate;
+  final DateTime toDate;
+  final String type;
 
-  Lead({
-    this.id,
-    this.offerUrl,
-    this.comment,
-    this.likes,
-    this.authorId,
-    this.timestamp,
-    this.fromDate,
-    this.toDate,
-  });
+  Lead(
+      {this.id,
+      this.fromPlace,
+      this.toPlace,
+      this.comment,
+      this.authorId,
+      this.timestamp,
+      this.fromDate,
+      this.toDate,
+      this.type});
 
   factory Lead.fromDoc(DocumentSnapshot doc) {
     return Lead(
         id: doc.id,
-        offerUrl: doc['imagepost'],
-        comment: doc['caption'],
-        likes: doc['likes'],
+        fromPlace: doc['fromPlace'],
+        toPlace: doc['toPlace'],
+        comment: doc['comment'],
         authorId: doc['authorId'],
         timestamp: doc['timestamp'],
-        fromDate: doc['name'],
-        toDate: doc['description']);
+        fromDate: doc['fromDate'],
+        toDate: doc['toDate'],
+        type: doc['type']);
   }
 }

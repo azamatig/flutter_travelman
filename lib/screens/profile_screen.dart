@@ -66,7 +66,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                     onPressed: () => {
                                           AuthService.logout(),
-                                          Navigator.pop(context),
                                         }),
                               ],
                             ),

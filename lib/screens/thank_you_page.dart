@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertravelman/screens/home_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,8 @@ class ThankYouPage extends StatelessWidget {
                         size: 60,
                         shape: GFButtonShape.pills,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/home', (route) => false);
                         },
                         child: Icon(
                           FontAwesomeIcons.arrowLeft,

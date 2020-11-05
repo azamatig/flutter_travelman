@@ -34,11 +34,14 @@ class DatabaseService {
 
   static void createLead(Lead lead) {
     leadsRef.doc(lead.authorId).collection('userLeads').add({
-      'imageUrl': lead.offerUrl,
-      'caption': lead.comment,
-      'likes': lead.likes,
+      'fromPlace': lead.fromPlace,
+      'toPlace': lead.toPlace,
+      'comment': lead.comment,
       'authorId': lead.authorId,
       'timestamp': lead.timestamp,
+      'fromDate': lead.fromDate,
+      'toDate': lead.toDate,
+      'type': lead.type
     });
   }
 }
