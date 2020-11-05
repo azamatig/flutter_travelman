@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertravelman/const.dart';
+import 'package:fluttertravelman/models/user_model.dart';
+import 'package:fluttertravelman/screens/edit_profile_screen.dart';
 import 'package:fluttertravelman/services/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,141 +18,159 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Widget _profileDetails() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 250,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: ListView(
+    return FutureBuilder(
+        future: usersRef.doc(widget.userId).get(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: GFLoader(),
+            );
+          }
+          UserModel user = UserModel.fromDoc(snapshot.data);
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 250,
+              child: Column(
                 children: <Widget>[
-                  SizedBox(height: 10),
-                  Container(
-                    padding: EdgeInsets.only(left: 20),
-                    height: 300,
+                  Expanded(
                     child: ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      primary: false,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                // Текст имя
-                                'Tursunov Azamat',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
-                                maxLines: 2,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                    ),
-                                    onPressed: () => {}),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                IconButton(
-                                    icon: Icon(
-                                      FontAwesomeIcons.signOutAlt,
-                                    ),
-                                    onPressed: () => {
-                                          AuthService.logout(),
-                                        }),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.location_on,
-                              size: 14,
-                              color: Colors.blueGrey[300],
-                            ),
-                            SizedBox(width: 3),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                // Местополодение
-                                'Kazakhstan, Almaty',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.blueGrey[300],
-                                ),
-                                maxLines: 1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 3),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            // Возраст
-                            'Flutter developer',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                                color: Colors.blueGrey[300]),
-                            maxLines: 1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        SizedBox(height: 40),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Обо мне",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                            maxLines: 1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
                         SizedBox(height: 10),
                         Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            //Текст обо мне
-                            'Lorem ipsum oppossum stuff sitting on a washing machine',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 15,
-                            ),
-                            textAlign: TextAlign.left,
+                          padding: EdgeInsets.only(left: 20),
+                          height: 300,
+                          child: ListView(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            primary: false,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      // Текст имя
+                                      'Tursunov Azamat',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                      maxLines: 2,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                          icon: Icon(
+                                            Icons.edit,
+                                          ),
+                                          onPressed: () => {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            EditProfileScreen(
+                                                                user: user)))
+                                              }),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      IconButton(
+                                          icon: Icon(
+                                            FontAwesomeIcons.signOutAlt,
+                                          ),
+                                          onPressed: () => {
+                                                AuthService.logout(),
+                                              }),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 14,
+                                    color: Colors.blueGrey[300],
+                                  ),
+                                  SizedBox(width: 3),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      // Местополодение
+                                      user.location ?? ' -- ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: Colors.blueGrey[300],
+                                      ),
+                                      maxLines: 1,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 3),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  // Возраст
+                                  user.age,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      color: Colors.blueGrey[300]),
+                                  maxLines: 1,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              SizedBox(height: 40),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Обо мне",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                  maxLines: 1,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  //Текст обо мне
+                                  user.bio,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Divider(),
+                            ],
                           ),
                         ),
-                        Divider(),
                       ],
                     ),
                   ),
+                  //
+                  //
+                  //
                 ],
               ),
             ),
-            //
-            //
-            //
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 
   @override

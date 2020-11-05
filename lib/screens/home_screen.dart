@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertravelman/models/user_data.dart';
 import 'package:fluttertravelman/screens/feed.dart';
 import 'package:fluttertravelman/screens/profile_screen.dart';
 import 'package:fluttertravelman/screens/second_screen.dart';
 import 'package:fluttertravelman/screens/third_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 /*
 Made by 'pure coincidence', and sponsored by 'i keep googling things, and somehow it works'
@@ -52,7 +54,9 @@ class _MainScreenState extends State<MainScreen> {
           FeedScreen(), // Первый экран с клиентами, first Screen Clients List
           ChatScreen(), // Второй экран с договорами, second screen List Contracts
           ToursScreen(), // For the future
-          ProfileScreen(), // in case of emergency break Class
+          ProfileScreen(
+            userId: Provider.of<UserData>(context).currentUserId,
+          ), // in case of emergency break Class
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
