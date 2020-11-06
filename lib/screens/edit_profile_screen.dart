@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/services/database_service.dart';
 import 'package:fluttertravelman/services/storage_service.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -36,7 +38,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   _handleImageFromGallery() async {
     var pick = ImagePicker();
-    File imageFile = (await pick.getImage(source: ImageSource.gallery)) as File;
+    var imageFile;
+    PickedFile pickedFile = (await pick.getImage(source: ImageSource.gallery));
+    imageFile = File(pickedFile.path);
     if (imageFile != null) {
       setState(() {
         _profileImage = imageFile;
@@ -103,7 +107,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: Colors.white,
         title: Text(
           'Редактировать профиль',
-          style: TextStyle(color: Colors.black),
+          style: GoogleFonts.poppins(
+              fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
         ),
       ),
       body: GestureDetector(
@@ -131,14 +136,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onPressed: _handleImageFromGallery,
                       child: Text(
                         'Загрузить фото профиля',
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 16.0),
+                        style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                     TextFormField(
                       initialValue: _name,
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
                       decoration: InputDecoration(
                         icon: Icon(
                           Icons.person,
@@ -153,7 +162,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     TextFormField(
                       initialValue: _bio,
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
                       decoration: InputDecoration(
                         icon: Icon(
                           Icons.book,
@@ -168,7 +180,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     TextFormField(
                       initialValue: _age,
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
                       decoration: InputDecoration(
                         icon: Icon(
                           Icons.account_circle,
@@ -182,7 +197,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     TextFormField(
                       initialValue: _location,
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
                       decoration: InputDecoration(
                         icon: Icon(
                           Icons.pin_drop,
@@ -197,15 +215,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     Container(
                       margin: EdgeInsets.all(40.0),
-                      height: 40.0,
+                      height: 50.0,
                       width: 250.0,
-                      child: FlatButton(
+                      child: GFButton(
                         onPressed: _submit,
                         color: Colors.blue,
+                        shape: GFButtonShape.pills,
                         textColor: Colors.white,
                         child: Text(
                           'Сохранить',
-                          style: TextStyle(fontSize: 18.0),
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),

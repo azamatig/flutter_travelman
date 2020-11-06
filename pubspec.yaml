@@ -41,7 +41,11 @@ dependencies:
   provider: ^4.3.2+2
   flutter_image_compress: ^0.6.3
   image_picker: ^0.6.7+12
+  location: ^2.3.5
+  geocoder: ^0.2.1
+  uuid: ^2.0.4
   cached_network_image: ^2.3.3
+  image: ^2.1.18
 
 dev_dependencies:
   flutter_test:

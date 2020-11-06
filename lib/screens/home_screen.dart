@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_data.dart';
 import 'package:fluttertravelman/screens/feed.dart';
 import 'package:fluttertravelman/screens/profile_screen.dart';
-import 'package:fluttertravelman/screens/second_screen.dart';
+import 'package:fluttertravelman/screens/chat_screen.dart';
 import 'package:fluttertravelman/screens/third_screen.dart';
+import 'package:fluttertravelman/screens/upload_post_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,10 @@ class _MainScreenState extends State<MainScreen> {
         controller: pageController,
         children: <Widget>[
           FeedScreen(), // Первый экран с клиентами, first Screen Clients List
-          ChatScreen(), // Второй экран с договорами, second screen List Contracts
+          ChatScreen(),
+          Uploader(
+              userId: Provider.of<UserData>(context)
+                  .currentUserId), // Второй экран с договорами, second screen List Contracts
           ToursScreen(), // For the future
           ProfileScreen(
             userId: Provider.of<UserData>(context).currentUserId,
@@ -78,6 +82,14 @@ class _MainScreenState extends State<MainScreen> {
             label: '',
             icon: Icon(
               FontAwesomeIcons.mapMarkerAlt,
+              size: 20.0,
+              color: Colors.black54,
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: '',
+            icon: Icon(
+              FontAwesomeIcons.plusSquare,
               size: 20.0,
               color: Colors.black54,
             ),
