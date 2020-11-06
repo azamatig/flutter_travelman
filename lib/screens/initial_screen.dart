@@ -12,7 +12,7 @@ import '../models/user_data.dart';
 class InitialScreen extends StatelessWidget {
   Widget _getScreenId() {
     return StreamBuilder<auth.User>(
-      stream: auth.FirebaseAuth.instance.onAuthStateChanged,
+      stream: auth.FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
           Provider.of<UserData>(context).currentUserId = snapshot.data.uid;

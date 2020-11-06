@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color pinBlue = Color.fromARGB(255, 57, 90, 255);
     return Scaffold(
       body: Stack(
         children: [

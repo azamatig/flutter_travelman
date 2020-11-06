@@ -6,10 +6,10 @@ import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TicketConfirmation extends StatelessWidget {
-  Color pinYellow = Color.fromARGB(255, 255, 213, 0);
-  Color pinBlue = Color.fromARGB(255, 57, 90, 255);
   @override
   Widget build(BuildContext context) {
+    Color pinYellow = Color.fromARGB(255, 255, 213, 0);
+    Color pinBlue = Color.fromARGB(255, 57, 90, 255);
     return Scaffold(
       body: Stack(
         children: [
@@ -266,6 +266,7 @@ class TicketConfirmation extends StatelessWidget {
   }
 
   Widget calendarBar(context) {
+    Color pinBlue = Color.fromARGB(255, 57, 90, 255);
     return Stack(
       children: [
         Positioned(
