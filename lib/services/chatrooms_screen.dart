@@ -4,7 +4,6 @@ import 'package:fluttertravelman/screens/Blabla_screen.dart';
 import 'package:fluttertravelman/screens/search.dart';
 import 'package:fluttertravelman/services/chat_services.dart';
 import 'package:fluttertravelman/services/helper_functions.dart';
-import 'package:fluttertravelman/services/widgets.dart';
 
 class ChatRoom extends StatefulWidget {
   @override

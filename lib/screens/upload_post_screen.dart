@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/const.dart';
-import 'package:fluttertravelman/models/user_data.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/services/location.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:async';
 import 'dart:io';

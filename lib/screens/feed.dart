@@ -10,13 +10,13 @@ import 'package:time_formatter/time_formatter.dart';
 
 class FeedScreen extends StatefulWidget {
   static final String id = 'feed_screen';
-  String uid;
+ final  String uid;
   final String userId;
-  String name;
-  String description;
-  String imageUrl;
+  final String name;
+ final  String description;
+  final String imageUrl;
 
-  FeedScreen({Key key, this.userId}) : super(key: key);
+  FeedScreen({Key key, this.userId, this.uid, this.name, this.description, this.imageUrl}) : super(key: key);
 
   @override
   _FeedScreenState createState() => _FeedScreenState();

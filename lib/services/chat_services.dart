@@ -27,6 +27,7 @@ class ChatService {
         .get();
   }
 
+  // ignore: missing_return
   Future<bool> addChatRoom(chatRoom, chatRoomId) {
     FirebaseFirestore.instance
         .collection("chatRoom")
@@ -46,6 +47,7 @@ class ChatService {
         .snapshots();
   }
 
+  // ignore: missing_return
   Future<void> addMessage(String chatRoomId, chatMessageData) {
     FirebaseFirestore.instance
         .collection("chatRoom")
@@ -58,7 +60,7 @@ class ChatService {
   }
 
   getUserChats(String itIsMyName) async {
-    return await FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection("chatRoom")
         .where('users', arrayContains: itIsMyName)
         .snapshots();
