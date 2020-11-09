@@ -51,15 +51,20 @@ class _MainScreenState extends State<MainScreen> {
           setState(() => _currentTab = index);
         },
         controller: pageController,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          FeedScreen(), // Первый экран с клиентами, first Screen Clients List
-          ChatScreen(),
-          Uploader(
-              userId: Provider.of<UserData>(context)
-                  .currentUserId), // Второй экран с договорами, second screen List Contracts
-          ToursScreen(), // For the future
-          ProfileScreen(
-            userId: Provider.of<UserData>(context).currentUserId,
+          Container(
+              child: FeedScreen(
+                  userId: Provider.of<UserData>(context).currentUserId)),
+          Container(child: ChatScreen()),
+          Container(
+              child: Uploader(
+                  userId: Provider.of<UserData>(context).currentUserId)),
+          Container(child: ToursScreen()),
+          Container(
+            child: ProfileScreen(
+              userId: Provider.of<UserData>(context).currentUserId,
+            ),
           ), // in case of emergency break Class
         ],
       ),

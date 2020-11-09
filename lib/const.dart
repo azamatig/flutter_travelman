@@ -6,3 +6,7 @@ final storageRef = FirebaseStorage.instance.ref();
 final usersRef = _firestore.collection('users');
 final postsRef = _firestore.collection('post');
 final leadsRef = _firestore.collection('leads');
+
+class Constants {
+  static String myName = "";
+}

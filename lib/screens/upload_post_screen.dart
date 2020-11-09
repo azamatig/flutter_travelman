@@ -15,8 +15,8 @@ import 'package:geocoder/geocoder.dart';
 
 class Uploader extends StatefulWidget {
   final String userId;
-
-  const Uploader({Key key, this.userId}) : super(key: key);
+  final String name;
+  const Uploader({Key key, this.userId, this.name}) : super(key: key);
 
   _Uploader createState() => _Uploader();
 }
@@ -145,19 +145,16 @@ class _Uploader extends State<Uploader> {
       barrierDismissible: false, // user must tap button!
 
       builder: (BuildContext context) {
+        final _picker = ImagePicker();
         return SimpleDialog(
           title: const Text('Create a Post'),
           children: <Widget>[
             SimpleDialogOption(
                 child: const Text('Take a photo'),
                 onPressed: () async {
-                  Navigator.pop(context);
-                  var pick = ImagePicker();
-                  PickedFile imageFile = await pick.getImage(
-                      source: ImageSource.camera,
-                      maxWidth: 1920,
-                      maxHeight: 1200,
-                      imageQuality: 80);
+                  Navigator.of(context).pop();
+                  PickedFile imageFile =
+                      await _picker.getImage(source: ImageSource.camera);
                   setState(() {
                     file = File(imageFile.path);
                   });
@@ -303,18 +300,19 @@ Future<String> uploadImage(var imageFile) async {
 
 void postToFireStore(
     {BuildContext context,
+    String userId,
     String mediaUrl,
     String location,
     String description}) async {
   var reference = FirebaseFirestore.instance.collection('posts');
 
   reference.add({
-    "username": Provider.of<UserData>(context, listen: false).currentUserName,
+    "username": 'test',
     "location": location,
     "likes": {},
     "mediaUrl": mediaUrl,
     "description": description,
-    "ownerId": Provider.of<UserData>(context, listen: false).currentUserId,
+    "ownerId": userId,
     "timestamp": DateTime.now(),
   }).then((DocumentReference doc) {
     String docId = doc.id;
