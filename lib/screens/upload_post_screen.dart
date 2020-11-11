@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/const.dart';
-import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/services/location.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,7 +11,9 @@ import 'package:geocoder/geocoder.dart';
 class Uploader extends StatefulWidget {
   final String userId;
   final String name;
-  const Uploader({Key key, this.userId, this.name}) : super(key: key);
+  final String profileImageUrl;
+  const Uploader({Key key, this.userId, this.name, this.profileImageUrl})
+      : super(key: key);
 
   _Uploader createState() => _Uploader();
 }
@@ -81,7 +80,7 @@ class _Uploader extends State<Uploader> {
                   descriptionController: descriptionController,
                   locationController: locationController,
                   loading: uploading,
-                  userId: widget.userId,
+                  profileImageUrl: widget.profileImageUrl,
                 ),
                 Divider(), //scroll view where we will show location to users
                 (address == null)
@@ -196,6 +195,8 @@ class _Uploader extends State<Uploader> {
     uploadImage(file).then((String data) {
       postToFireStore(
           mediaUrl: data,
+          name: widget.name,
+          userId: widget.userId,
           description: descriptionController.text,
           location: locationController.text);
     }).then((_) {
@@ -211,79 +212,69 @@ class PostForm extends StatelessWidget {
   final imageFile;
   final TextEditingController descriptionController;
   final TextEditingController locationController;
-  final String userId;
+  final String profileImageUrl;
   final bool loading;
-  PostForm(
-      {this.imageFile,
-      this.descriptionController,
-      this.loading,
-      this.locationController,
-      this.userId});
+  PostForm({
+    this.imageFile,
+    this.descriptionController,
+    this.loading,
+    this.locationController,
+    this.profileImageUrl,
+  });
 
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: usersRef.doc(userId).get(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: GFLoader(),
-            );
-          }
-          UserModel user = UserModel.fromDoc(snapshot.data);
-          return Column(
-            children: <Widget>[
-              loading
-                  ? LinearProgressIndicator()
-                  : Padding(padding: EdgeInsets.only(top: 0.0)),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(user.profileImageUrl),
-                  ),
-                  Container(
-                    width: 250.0,
-                    child: TextField(
-                      controller: descriptionController,
-                      decoration: InputDecoration(
-                          hintText: "Write a caption...",
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  Container(
-                    height: 45.0,
-                    width: 45.0,
-                    child: AspectRatio(
-                      aspectRatio: 487 / 451,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          fit: BoxFit.fill,
-                          alignment: FractionalOffset.topCenter,
-                          image: FileImage(imageFile),
-                        )),
-                      ),
-                    ),
-                  ),
-                ],
+    return Column(
+      children: <Widget>[
+        loading
+            ? LinearProgressIndicator()
+            : Padding(padding: EdgeInsets.only(top: 0.0)),
+        Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundImage: NetworkImage(profileImageUrl),
+            ),
+            Container(
+              width: 250.0,
+              child: TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(
+                    hintText: "Write a caption...", border: InputBorder.none),
               ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.pin_drop),
-                title: Container(
-                  width: 250.0,
-                  child: TextField(
-                    controller: locationController,
-                    decoration: InputDecoration(
-                        hintText: "Where was this photo taken?",
-                        border: InputBorder.none),
-                  ),
+            ),
+            Container(
+              height: 45.0,
+              width: 45.0,
+              child: AspectRatio(
+                aspectRatio: 487 / 451,
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    fit: BoxFit.fill,
+                    alignment: FractionalOffset.topCenter,
+                    image: FileImage(imageFile),
+                  )),
                 ),
-              )
-            ],
-          );
-        });
+              ),
+            ),
+          ],
+        ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.pin_drop),
+          title: Container(
+            width: 250.0,
+            child: TextField(
+              controller: locationController,
+              decoration: InputDecoration(
+                  hintText: "Where was this photo taken?",
+                  border: InputBorder.none),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -298,6 +289,7 @@ Future<String> uploadImage(var imageFile) async {
 
 void postToFireStore(
     {BuildContext context,
+    String name,
     String userId,
     String mediaUrl,
     String location,
@@ -305,7 +297,7 @@ void postToFireStore(
   var reference = FirebaseFirestore.instance.collection('posts');
 
   reference.add({
-    "username": 'test',
+    "username": name,
     "location": location,
     "likes": {},
     "mediaUrl": mediaUrl,

@@ -40,7 +40,7 @@ dependencies:
   cloud_firestore: ^0.14.2
   provider: ^4.3.2+2
   flutter_image_compress: ^0.6.3
-  image_picker: ^0.6.7+12
+  image_picker: ^0.6.7+14
   location: ^2.3.5
   geocoder: ^0.2.1
   uuid: ^2.0.4
@@ -78,6 +78,7 @@ flutter:
     - assets/images/grp_1.png
     - assets/images/offer.png
     - assets/images/bck_img.png
+    - assets/images/ph.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -21,7 +21,15 @@ class AuthService {
         _fireStore.collection('/users').doc(signedInUser.uid).set({
           'name': name,
           'email': email,
+          'id': signedInUser.uid,
           'profileImageUrl': '',
+          'location': 'Не указано',
+          'age': '',
+          'bio': '',
+          'followers': '',
+          'following': '',
+          'phone': '',
+          'posts': '',
         });
         Provider.of<UserData>(context).currentUserId = signedInUser.uid;
         Navigator.pop(context);

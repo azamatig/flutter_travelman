@@ -8,8 +8,8 @@ class UserModel {
   String bio;
   String age;
   String location;
-  String followers;
-  String following;
+  Map followers;
+  Map following;
   String posts;
   String phone;
 

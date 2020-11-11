@@ -184,7 +184,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(user.profileImageUrl),
+                  image: NetworkImage(
+                      user.profileImageUrl ?? 'assets/images/ph.png'),
                 ),
               ),
               child: Container(

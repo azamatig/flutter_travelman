@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertravelman/const.dart';
 import 'package:fluttertravelman/models/user_data.dart';
+import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/feed.dart';
 import 'package:fluttertravelman/screens/profile_screen.dart';
-import 'package:fluttertravelman/screens/chat_screen.dart';
+import 'package:fluttertravelman/screens/offers_screen.dart';
 import 'package:fluttertravelman/screens/third_screen.dart';
 import 'package:fluttertravelman/screens/upload_post_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -45,29 +48,44 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String userId = Provider.of<UserData>(context).currentUserId;
     return Scaffold(
-      body: PageView(
-        onPageChanged: (index) {
-          setState(() => _currentTab = index);
-        },
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          Container(
-              child: FeedScreen(
-                  userId: Provider.of<UserData>(context).currentUserId)),
-          Container(child: ChatScreen()),
-          Container(
-              child: Uploader(
-                  userId: Provider.of<UserData>(context).currentUserId)),
-          Container(child: ToursScreen()),
-          Container(
-            child: ProfileScreen(
-              userId: Provider.of<UserData>(context).currentUserId,
-            ),
-          ), // in case of emergency break Class
-        ],
-      ),
+      body: FutureBuilder(
+          future: usersRef.doc(userId).get(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: GFLoader(),
+              );
+            }
+            UserModel user = UserModel.fromDoc(snapshot.data);
+            return PageView(
+              onPageChanged: (index) {
+                setState(() => _currentTab = index);
+              },
+              controller: pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                FeedScreen(
+                  userId: userId,
+                  profileImgUrl: user.profileImageUrl,
+                ),
+                OffersScreen(
+                  userId: userId,
+                  profileImgUrl: user.profileImageUrl,
+                ),
+                Uploader(
+                  userId: userId,
+                  name: user.name,
+                  profileImageUrl: user.profileImageUrl,
+                ),
+                ToursScreen(),
+                ProfileScreen(
+                  userId: userId,
+                ), // in case of emergency break Class
+              ],
+            );
+          }),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
