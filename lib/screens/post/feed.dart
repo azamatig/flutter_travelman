@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertravelman/models/comment.dart';
+import 'package:fluttertravelman/screens/comments/comments_screen.dart';
 import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/chat_app/Blabla_screen.dart';
 import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/poisk_biletov.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -155,13 +157,21 @@ class _FeedScreenState extends State<FeedScreen> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(bottom: 8.0, right: 20),
-                            child: Container(
-                              alignment: Alignment.centerRight,
-                              width: 50,
-                              height: 35,
-                              child: Icon(
-                                FontAwesomeIcons.bookmark,
-                                size: 20,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => CommentsScreen()));
+                              },
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                width: 50,
+                                height: 35,
+                                child: Icon(
+                                  FontAwesomeIcons.comment,
+                                  size: 20,
+                                ),
                               ),
                             ),
                           ),
