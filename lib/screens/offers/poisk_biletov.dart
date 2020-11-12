@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/lead_model.dart';
 import 'package:fluttertravelman/models/user_data.dart';
-import 'package:fluttertravelman/screens/thank_you_page.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/thank_you_page.dart';
 import 'package:fluttertravelman/services/database_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';

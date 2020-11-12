@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:getwidget/getwidget.dart';
 
-import 'screens/initial_screen.dart';
+import 'screens/home/initial_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

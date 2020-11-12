@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/const.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/utils/const.dart';
 import 'package:fluttertravelman/models/user_model.dart';
-import 'package:fluttertravelman/screens/edit_profile_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/profile/edit_profile_screen.dart';
 import 'package:fluttertravelman/services/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/screens/offer_details.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/chat_app/Blabla_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/poisk_biletov.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OffersScreen extends StatefulWidget {
+class FeedScreen extends StatefulWidget {
   static final String id = 'feed_screen';
   final String uid;
   final String userId;
@@ -14,7 +14,7 @@ class OffersScreen extends StatefulWidget {
   final String profileImgUrl;
   final String imageUrl;
 
-  OffersScreen(
+  FeedScreen(
       {Key key,
       this.userId,
       this.uid,
@@ -25,10 +25,10 @@ class OffersScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _OffersScreenState createState() => _OffersScreenState();
+  _FeedScreenState createState() => _FeedScreenState();
 }
 
-class _OffersScreenState extends State<OffersScreen> {
+class _FeedScreenState extends State<FeedScreen> {
   final db = FirebaseFirestore.instance;
 
   Container buildItem(DocumentSnapshot doc) {
@@ -170,32 +170,6 @@ class _OffersScreenState extends State<OffersScreen> {
                     ],
                   ),
                 ),
-                Positioned(
-                  top: 335,
-                  left: 155,
-                  child: Container(
-                    width: 75,
-                    height: 30,
-                    child: GFButton(
-                      shape: GFButtonShape.pills,
-                      onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OfferDetails()))
-                      },
-                      child: Text(
-                        'Join',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            color: Colors.black),
-                        textAlign: TextAlign.center,
-                      ),
-                      color: buttonColor,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -211,11 +185,31 @@ class _OffersScreenState extends State<OffersScreen> {
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Text(
-          'Предложения от туроператоров',
+          'travelman',
           style: GoogleFonts.poppins(
               color: Colors.black, fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              FontAwesomeIcons.telegramPlane,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatScreen(myId: widget.userId))),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PoiskBiletov())),
+          )
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(8),

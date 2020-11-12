@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/screens/home_screen.dart';
-import 'package:fluttertravelman/screens/Login_screen.dart';
-import 'package:fluttertravelman/screens/enter_app_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/home/home_screen.dart';
+import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/home/enter_app_screen.dart';
+import 'package:fluttertravelman/screens/home/Login_screen.dart';
+import 'package:fluttertravelman/screens/home/Sign_up_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'Sign_up_screen.dart';
-import 'feed.dart';
-import '../models/user_data.dart';
+import '../post/feed.dart';
+import '../../models/user_data.dart';
 
 class InitialScreen extends StatelessWidget {
   Widget _getScreenId() {

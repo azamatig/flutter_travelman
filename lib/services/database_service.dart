@@ -3,7 +3,7 @@ import 'package:fluttertravelman/models/lead_model.dart';
 import 'package:fluttertravelman/models/post_model.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 
-import '../const.dart';
+import '../utils/const.dart';
 
 class DatabaseService {
   static void updateUser(UserModel user) {
