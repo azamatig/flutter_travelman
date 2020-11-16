@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/services/auth_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
   static final String id = 'singup_screen';
@@ -13,12 +13,24 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     Color pinBlue = Color.fromARGB(255, 57, 90, 255);
     return Scaffold(
       body: Stack(children: [
+        Positioned(
+          top: 250,
+          left: 200,
+          child: Container(
+            child: _isLoading
+                ? GFLoader(
+                    size: 50,
+                  )
+                : SizedBox.shrink(),
+          ),
+        ),
         Positioned(
             top: 57,
             left: 20,
@@ -127,11 +139,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  _submit() {
+  _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+
+      setState(() {
+        _isLoading = true;
+      });
       // Logging in the user w/ Firebase
-      AuthService.signUpUser(context, _name, _email, _password);
+      await AuthService.signUpUser(context, _name, _email, _password);
+      await Future.delayed(const Duration(seconds: 2), () {});
+      Navigator.pop(context);
     }
   }
 }
