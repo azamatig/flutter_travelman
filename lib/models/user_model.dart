@@ -12,34 +12,37 @@ class UserModel {
   Map following;
   String posts;
   String phone;
+  bool isOperator;
 
-  UserModel({
-    this.id,
-    this.name,
-    this.profileImageUrl,
-    this.email,
-    this.bio,
-    this.age,
-    this.location,
-    this.followers,
-    this.following,
-    this.posts,
-    this.phone,
-  });
+  UserModel(
+      {this.id,
+      this.name,
+      this.profileImageUrl,
+      this.email,
+      this.bio,
+      this.age,
+      this.location,
+      this.followers,
+      this.following,
+      this.posts,
+      this.phone,
+      this.isOperator});
 
   factory UserModel.fromDoc(DocumentSnapshot doc) {
     return UserModel(
-        id: doc.id,
-        name: doc['name'],
-        profileImageUrl: doc['profileImageUrl'],
-        email: doc['email'],
-        bio: doc['bio'] ?? '',
-        age: doc['age'] ?? '',
-        followers: doc['followers'] ?? '',
-        following: doc['following'] ?? '',
-        posts: doc['posts'] ?? '',
-        phone: doc['phone'] ?? '',
-        location: doc['location'] ?? 'Местоположение');
+      id: doc.id,
+      name: doc['name'],
+      profileImageUrl: doc['profileImageUrl'],
+      email: doc['email'],
+      bio: doc['bio'] ?? '',
+      age: doc['age'] ?? '',
+      followers: doc['followers'] ?? '',
+      following: doc['following'] ?? '',
+      posts: doc['posts'] ?? '',
+      phone: doc['phone'] ?? '',
+      location: doc['location'] ?? 'Местоположение',
+      isOperator: doc['isOperator'] ?? false,
+    );
   }
 
   Map toMap(UserModel user) {
@@ -55,6 +58,7 @@ class UserModel {
     data['phone'] = user.phone;
     data['age'] = user.age;
     data['location'] = user.location;
+    data['isOperator'] = user.isOperator;
     return data;
   }
 
@@ -70,5 +74,6 @@ class UserModel {
     this.location = mapData['location'];
     this.posts = mapData['posts'];
     this.phone = mapData['phone'];
+    this.isOperator = mapData['isOperator'];
   }
 }

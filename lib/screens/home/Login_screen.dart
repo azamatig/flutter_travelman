@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/home/enter_app_screen.dart';
 import 'package:fluttertravelman/screens/home/Sign_up_screen.dart';
+import 'package:fluttertravelman/screens/home/enter_app_screen.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 

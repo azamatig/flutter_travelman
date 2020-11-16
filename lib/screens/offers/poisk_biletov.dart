@@ -2,18 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/lead_model.dart';
 import 'package:fluttertravelman/models/user_data.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/thank_you_page.dart';
+import 'package:fluttertravelman/screens/offers/thank_you_page.dart';
 import 'package:fluttertravelman/services/database_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:telebot/telebot.dart';
 
 class PoiskBiletov extends StatefulWidget {
   @override
   _PoiskBiletovState createState() => _PoiskBiletovState();
 }
+
+var BOT_TOKEN = '1497250707:AAEgI_4vKieBUgoDkPFtSTbm7lk5gfaw9E4';
+var bot = TelegramBot.init(BOT_TOKEN);
 
 class _PoiskBiletovState extends State<PoiskBiletov> {
   String _fromPlace, _toPlace;
@@ -62,6 +66,16 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
       type: _type,
     );
     DatabaseService.createLead(lead);
+    bot
+        .sendMessage(
+            chatId: "-482276315",
+            text:
+                "Lead: \n Откуда: $_toPlace \n Куда: $_fromPlace \n Вылет: $selectedArrDate \n Прилет: $selectedDepDate \n Тип: $_type")
+        .then((Message messageResult) {
+      // got result
+    }).catchError((error) {
+      // handle error
+    });
   }
 
   @override

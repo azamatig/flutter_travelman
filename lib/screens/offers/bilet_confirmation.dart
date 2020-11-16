@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/thank_you_page.dart';
+import 'package:fluttertravelman/screens/offers/thank_you_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';

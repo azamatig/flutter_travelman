@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/chat_app/chat_details.dart';
+import 'package:fluttertravelman/screens/chat_app/chat_details.dart';
 import 'package:fluttertravelman/services/repository.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';

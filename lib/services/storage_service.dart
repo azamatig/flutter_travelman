@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/utils/const.dart';
+import 'package:fluttertravelman/utils/const.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 

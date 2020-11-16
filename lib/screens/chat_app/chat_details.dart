@@ -123,8 +123,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         },
         controller: _messageController,
         decoration: InputDecoration(
-            hintText: "Enter message...",
-            labelText: "Message",
+            hintText: "Введите сообщение...",
+            labelText: "Сообщения",
             suffixIcon: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -141,20 +141,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
-                  child: InkWell(
-                    child: Text(
-                      'Send',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0),
-                    ),
-                    onTap: () {
-                      if (_formKey.currentState.validate()) {
-                        sendMessage();
-                      }
-                    },
-                  ),
+                  child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.arrowAltCircleRight,
+                        color: Colors.blue,
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          sendMessage();
+                        }
+                      }),
                 ),
               ],
             ),
@@ -302,7 +298,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget receiverLayout(DocumentSnapshot snapshot) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.black,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(24.0),
           border: Border.all(color: Colors.grey)),
       child: Padding(

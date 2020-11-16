@@ -32,7 +32,7 @@ class FirebaseProvider {
 
   Future<auth.User> getCurrentUser() async {
     auth.User currentUser;
-    currentUser = await _auth.currentUser;
+    currentUser = _auth.currentUser;
     return currentUser;
   }
 
@@ -258,7 +258,6 @@ class FirebaseProvider {
     map['timestamp'] = _message.timestamp;
     map['photoUrl'] = _message.photoUrl;
 
-    print("Map : ${map}");
     _firestore
         .collection("messages")
         .doc(_message.senderUid)
@@ -282,7 +281,6 @@ class FirebaseProvider {
     print("Message : ${message.message}");
     var map = message.toMap();
 
-    print("Map : $map");
     await _firestore
         .collection("messages")
         .doc(message.senderUid)

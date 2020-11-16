@@ -26,10 +26,11 @@ class AuthService {
           'location': 'Не указано',
           'age': '',
           'bio': '',
-          'followers': '',
-          'following': '',
+          'followers': [],
+          'following': [],
           'phone': '',
           'posts': '',
+          'isOperator': false,
         });
         Provider.of<UserData>(context).currentUserId = signedInUser.uid;
         Navigator.pop(context);

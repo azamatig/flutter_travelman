@@ -12,7 +12,10 @@ class Uploader extends StatefulWidget {
   final String userId;
   final String name;
   final String profileImageUrl;
-  const Uploader({Key key, this.userId, this.name, this.profileImageUrl})
+  final bool isOperator;
+
+  const Uploader(
+      {Key key, this.userId, this.name, this.profileImageUrl, this.isOperator})
       : super(key: key);
 
   _Uploader createState() => _Uploader();
@@ -38,11 +41,14 @@ class _Uploader extends State<Uploader> {
   }
 
   //method to get Location and save into variables
+
   initPlatformState() async {
     Address first = await getUserLocation();
-    setState(() {
-      address = first;
-    });
+    if (mounted) {
+      setState(() {
+        address = first;
+      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -144,10 +150,10 @@ class _Uploader extends State<Uploader> {
       builder: (BuildContext context) {
         final _picker = ImagePicker();
         return SimpleDialog(
-          title: const Text('Create a Post'),
+          title: const Text('Создать post'),
           children: <Widget>[
             SimpleDialogOption(
-                child: const Text('Take a photo'),
+                child: const Text('Фото'),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   PickedFile imageFile =
@@ -157,7 +163,7 @@ class _Uploader extends State<Uploader> {
                   });
                 }),
             SimpleDialogOption(
-                child: const Text('Choose from Gallery'),
+                child: const Text('Выбрать из галереи'),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   var pick = ImagePicker();
@@ -171,7 +177,7 @@ class _Uploader extends State<Uploader> {
                   });
                 }),
             SimpleDialogOption(
-              child: const Text("Cancel"),
+              child: const Text("Отмена"),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -194,8 +200,10 @@ class _Uploader extends State<Uploader> {
     });
     uploadImage(file).then((String data) {
       postToFireStore(
+          profileImgUrl: widget.profileImageUrl,
           mediaUrl: data,
           name: widget.name,
+          isOperator: widget.isOperator,
           userId: widget.userId,
           description: descriptionController.text,
           location: locationController.text);
@@ -240,7 +248,7 @@ class PostForm extends StatelessWidget {
               child: TextField(
                 controller: descriptionController,
                 decoration: InputDecoration(
-                    hintText: "Write a caption...", border: InputBorder.none),
+                    hintText: "Описание здесь...", border: InputBorder.none),
               ),
             ),
             Container(
@@ -268,7 +276,7 @@ class PostForm extends StatelessWidget {
             child: TextField(
               controller: locationController,
               decoration: InputDecoration(
-                  hintText: "Where was this photo taken?",
+                  hintText: "Где было сфотографированно?",
                   border: InputBorder.none),
             ),
           ),
@@ -293,19 +301,38 @@ void postToFireStore(
     String userId,
     String mediaUrl,
     String location,
-    String description}) async {
-  var reference = FirebaseFirestore.instance.collection('posts');
-
-  reference.add({
-    "username": name,
-    "location": location,
-    "likes": {},
-    "mediaUrl": mediaUrl,
-    "description": description,
-    "ownerId": userId,
-    "timestamp": DateTime.now(),
-  }).then((DocumentReference doc) {
-    String docId = doc.id;
-    reference.doc(docId).update({"postId": docId});
-  });
+    String profileImgUrl,
+    String description,
+    bool isOperator}) async {
+  if (isOperator == true) {
+    var reference = FirebaseFirestore.instance.collection('offers');
+    reference.add({
+      "username": name,
+      "ownerImgUrl": profileImgUrl,
+      "location": location,
+      "likes": {},
+      "mediaUrl": mediaUrl,
+      "description": description,
+      "ownerId": userId,
+      "timestamp": DateTime.now(),
+    }).then((DocumentReference doc) {
+      String docId = doc.id;
+      reference.doc(docId).update({"offerId": docId});
+    });
+  } else {
+    var reference = FirebaseFirestore.instance.collection('posts');
+    reference.add({
+      "username": name,
+      "ownerImgUrl": profileImgUrl,
+      "location": location,
+      "likes": {},
+      "mediaUrl": mediaUrl,
+      "description": description,
+      "ownerId": userId,
+      "timestamp": DateTime.now(),
+    }).then((DocumentReference doc) {
+      String docId = doc.id;
+      reference.doc(docId).update({"postId": docId});
+    });
+  }
 }

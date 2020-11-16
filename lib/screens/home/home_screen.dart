@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/utils/const.dart';
 import 'package:fluttertravelman/models/user_data.dart';
 import 'package:fluttertravelman/models/user_model.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/post/feed.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/profile/profile_screen.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/offers_screen.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/post/third_screen.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/post/upload_post_screen.dart';
+import 'package:fluttertravelman/screens/offers/offers_screen.dart';
+import 'package:fluttertravelman/screens/post/feed.dart';
+import 'package:fluttertravelman/screens/post/third_screen.dart';
+import 'package:fluttertravelman/screens/post/upload_post_screen.dart';
+import 'package:fluttertravelman/screens/profile/profile_screen.dart';
+import 'package:fluttertravelman/utils/const.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
@@ -32,18 +32,18 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
   void _onTap(int index) {
     setState(() {
       _currentTab = index;
       pageController.animateToPage(index,
           duration: Duration(milliseconds: 400), curve: Curves.ease);
     });
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,6 +78,7 @@ class _MainScreenState extends State<MainScreen> {
                   userId: userId,
                   name: user.name,
                   profileImageUrl: user.profileImageUrl,
+                  isOperator: user.isOperator,
                 ),
                 ToursScreen(),
                 ProfileScreen(

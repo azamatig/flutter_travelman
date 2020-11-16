@@ -48,6 +48,7 @@ dependencies:
   image: ^2.1.18
   time_formatter: ^1.0.0+5
   shared_preferences: ^0.5.12+4
+  telebot: ^1.0.3
 
 dev_dependencies:
   flutter_test:

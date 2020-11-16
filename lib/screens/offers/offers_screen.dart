@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/offers/offer_details.dart';
+import 'package:fluttertravelman/screens/offers/offer_details.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,7 +45,7 @@ class _OffersScreenState extends State<OffersScreen> {
                   radius: 15,
                   child: ClipOval(
                     child: Image.network(
-                      widget.profileImgUrl,
+                      doc.data()['ownerImgUrl'],
                     ),
                   ),
                 ),
@@ -221,7 +222,7 @@ class _OffersScreenState extends State<OffersScreen> {
         padding: EdgeInsets.all(8),
         children: [
           StreamBuilder<QuerySnapshot>(
-              stream: db.collection('posts').snapshots(),
+              stream: db.collection('offers').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Column(

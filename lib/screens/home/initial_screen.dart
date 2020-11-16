@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/home/home_screen.dart';
-import 'file:///C:/Users/Azamatig/Desktop/Downloads/flutter_travelman/lib/screens/home/enter_app_screen.dart';
 import 'package:fluttertravelman/screens/home/Login_screen.dart';
 import 'package:fluttertravelman/screens/home/Sign_up_screen.dart';
+import 'package:fluttertravelman/screens/home/enter_app_screen.dart';
+import 'package:fluttertravelman/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../post/feed.dart';
