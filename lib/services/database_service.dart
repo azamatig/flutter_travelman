@@ -41,7 +41,10 @@ class DatabaseService {
       'timestamp': lead.timestamp,
       'fromDate': lead.fromDate,
       'toDate': lead.toDate,
-      'type': lead.type
+      'type': lead.type,
+      'userName': lead.userName,
+      'userPhone': lead.userPhone,
+      'email': lead.email,
     });
   }
 }

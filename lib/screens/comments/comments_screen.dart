@@ -103,12 +103,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       // ignore: missing_return
                       validator: (String input) {
                         if (input.isEmpty) {
-                          return "Please enter comment";
+                          return "Введите комментарий";
                         }
                       },
                       controller: _commentController,
                       decoration: InputDecoration(
-                        hintText: "Add a comment...",
+                        hintText: "Добавить коммент...",
                       ),
                       onFieldSubmitted: (value) {
                         _commentController.text = value;
@@ -119,7 +119,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 GestureDetector(
                   child: Container(
                     margin: const EdgeInsets.only(right: 8.0),
-                    child: Text('Post', style: TextStyle(color: Colors.blue)),
+                    child: Icon(
+                      FontAwesomeIcons.arrowAltCircleRight,
+                      color: pinBlue,
+                    ),
                   ),
                   onTap: () {
                     if (_formKey.currentState.validate()) {

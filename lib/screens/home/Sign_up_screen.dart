@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/services/auth_service.dart';
+import 'package:fluttertravelman/utils/const.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color pinBlue = Color.fromARGB(255, 57, 90, 255);
     return Scaffold(
       body: Stack(children: [
         Positioned(
@@ -146,8 +146,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         _isLoading = true;
       });
-      // Logging in the user w/ Firebase
-      await AuthService.signUpUser(context, _name, _email, _password);
+      AuthService.signUpUser(context, _name, _email, _password);
       await Future.delayed(const Duration(seconds: 2), () {});
       Navigator.pop(context);
     }

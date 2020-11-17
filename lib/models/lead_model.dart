@@ -6,10 +6,13 @@ class Lead {
   final String toPlace;
   final String comment;
   final String authorId;
+  final String userName;
+  final String userPhone;
   final Timestamp timestamp;
   final DateTime fromDate;
   final DateTime toDate;
   final String type;
+  final String email;
 
   Lead(
       {this.id,
@@ -20,7 +23,10 @@ class Lead {
       this.timestamp,
       this.fromDate,
       this.toDate,
-      this.type});
+      this.type,
+      this.userName,
+      this.userPhone,
+      this.email});
 
   factory Lead.fromDoc(DocumentSnapshot doc) {
     return Lead(
@@ -32,6 +38,9 @@ class Lead {
         timestamp: doc['timestamp'],
         fromDate: doc['fromDate'],
         toDate: doc['toDate'],
-        type: doc['type']);
+        type: doc['type'],
+        userName: doc['userName'],
+        userPhone: doc['userPhone'],
+        email: doc['email']);
   }
 }

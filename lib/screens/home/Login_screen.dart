@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/screens/home/Sign_up_screen.dart';
 import 'package:fluttertravelman/screens/home/enter_app_screen.dart';
+import 'package:fluttertravelman/utils/const.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color pinBlue = Color.fromARGB(255, 57, 90, 255);
-    Color buttonColor = Color.fromARGB(255, 255, 213, 0);
     return Scaffold(
       body: Stack(
         children: [

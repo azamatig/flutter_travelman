@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/profile/edit_profile_screen.dart';
-import 'package:fluttertravelman/services/auth_service.dart';
 import 'package:fluttertravelman/utils/const.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String userId;
@@ -71,13 +68,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   builder: (_) =>
                                                       EditProfileScreen(
                                                           user: user)))
-                                        }),
-                                IconButton(
-                                    icon: Icon(
-                                      FontAwesomeIcons.signOutAlt,
-                                    ),
-                                    onPressed: () => {
-                                          AuthService.logout(),
                                         }),
                               ],
                             ),
@@ -189,17 +179,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 270.0, bottom: 7),
-                      child: Text(
-                        '',
-                        textAlign: TextAlign.left,
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
                     Material(
                       elevation: 14.0,
                       color: Colors.white,

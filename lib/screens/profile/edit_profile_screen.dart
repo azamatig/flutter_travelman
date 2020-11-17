@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
+import 'package:fluttertravelman/services/auth_service.dart';
 import 'package:fluttertravelman/services/database_service.dart';
 import 'package:fluttertravelman/services/storage_service.dart';
+import 'package:fluttertravelman/utils/const.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,11 +108,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              FontAwesomeIcons.chevronLeft,
+              color: Colors.black,
+            )),
         title: Text(
           'Редактировать профиль',
           style: GoogleFonts.poppins(
               fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                FontAwesomeIcons.signOutAlt,
+                color: pinBlue,
+              ),
+              onPressed: () => {
+                    AuthService.logout(),
+                  }),
+        ],
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -139,7 +158,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         style: GoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: Theme.of(context).accentColor),
+                            color: pinBlue),
                       ),
                     ),
                     TextFormField(
@@ -219,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       width: 250.0,
                       child: GFButton(
                         onPressed: _submit,
-                        color: Colors.blue,
+                        color: pinBlue,
                         shape: GFButtonShape.pills,
                         textColor: Colors.white,
                         child: Text(

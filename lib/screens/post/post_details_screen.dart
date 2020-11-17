@@ -1,24 +1,33 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
+import 'package:fluttertravelman/screens/comments/comments_screen.dart';
 import 'package:fluttertravelman/utils/const.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OfferDetails extends StatefulWidget {
+class PostDetails extends StatefulWidget {
   final String userId;
   final String desc;
   final String imgUrl;
+  final DocumentReference documentReference;
+  final UserModel currentUser;
 
-  OfferDetails({this.userId, this.desc, this.imgUrl});
+  PostDetails(
+      {this.userId,
+      this.desc,
+      this.imgUrl,
+      this.documentReference,
+      this.currentUser});
 
   @override
-  _OfferDetailsState createState() => _OfferDetailsState();
+  _PostDetailsState createState() => _PostDetailsState();
 }
 
-class _OfferDetailsState extends State<OfferDetails> {
-  FutureBuilder _offerDetails() {
+class _PostDetailsState extends State<PostDetails> {
+  FutureBuilder _postDetails() {
     return FutureBuilder(
         future: usersRef.doc(widget.userId).get(),
         builder: (context, snapshot) {
@@ -33,13 +42,22 @@ class _OfferDetailsState extends State<OfferDetails> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: 400,
+                height: 700,
                 child: Column(
                   children: <Widget>[
                     Expanded(
                       child: ListView(
                         children: <Widget>[
-                          SizedBox(height: 10),
+                          Container(
+                            height: 300,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(widget.imgUrl),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 25),
                           Container(
                             padding: EdgeInsets.only(left: 10),
                             child: ListView(
@@ -108,66 +126,59 @@ class _OfferDetailsState extends State<OfferDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(widget.imgUrl),
-          ),
-        ),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Material(
-                elevation: 14.0,
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50.0),
-                    topRight: Radius.circular(50.0)),
-                shadowColor: Colors.grey,
-                child: _offerDetails(),
-              ),
-              Container(
-                decoration: BoxDecoration(color: Colors.white),
-                height: 65,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Container(
-                            width: 40,
-                            height: 35,
-                            child: Icon(FontAwesomeIcons.heart)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Container(
-                            width: 40,
-                            height: 35,
-                            child: Icon(FontAwesomeIcons.shareAlt)),
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0, right: 20),
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          width: 75,
-                          height: 35,
-                          child: Icon(FontAwesomeIcons.bookmark),
-                        ),
-                      ),
-                    ],
+      body: Column(
+        children: <Widget>[
+          _postDetails(),
+          Spacer(),
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            height: 65,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0, right: 15),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Container(
+                        width: 40,
+                        height: 35,
+                        child: Icon(FontAwesomeIcons.heart)),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Container(
+                        width: 40,
+                        height: 35,
+                        child: Icon(FontAwesomeIcons.shareAlt)),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0, right: 20),
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      width: 75,
+                      height: 35,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CommentsScreen(
+                                        userId: widget.userId,
+                                        documentReference:
+                                            widget.documentReference,
+                                        user: widget.currentUser,
+                                      )));
+                        },
+                        icon: Icon(FontAwesomeIcons.commentAlt),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

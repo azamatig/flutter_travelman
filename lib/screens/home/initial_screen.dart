@@ -4,6 +4,7 @@ import 'package:fluttertravelman/screens/home/Login_screen.dart';
 import 'package:fluttertravelman/screens/home/Sign_up_screen.dart';
 import 'package:fluttertravelman/screens/home/enter_app_screen.dart';
 import 'package:fluttertravelman/screens/home/home_screen.dart';
+import 'package:fluttertravelman/utils/const.dart';
 import 'package:provider/provider.dart';
 
 import '../post/feed.dart';
@@ -33,8 +34,16 @@ class InitialScreen extends StatelessWidget {
         title: 'Travelman',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            inputDecorationTheme: InputDecorationTheme(
+          focusedBorder:
+              UnderlineInputBorder(borderSide: BorderSide(color: pinBlue)),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: pinBlue),
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: pinBlue),
+          ),
+        )),
         home: _getScreenId(),
         routes: {
           '/home': (context) => MainScreen(),

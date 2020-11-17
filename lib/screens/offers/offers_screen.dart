@@ -183,7 +183,11 @@ class _OffersScreenState extends State<OffersScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OfferDetails()))
+                                builder: (context) => OfferDetails(
+                                      userId: widget.userId,
+                                      desc: doc.data()['description'],
+                                      imgUrl: doc.data()['mediaUrl'],
+                                    )))
                       },
                       child: Text(
                         'Join',

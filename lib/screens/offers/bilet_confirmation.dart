@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/screens/offers/thank_you_page.dart';
+import 'package:fluttertravelman/utils/const.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
@@ -8,8 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 class TicketConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color pinYellow = Color.fromARGB(255, 255, 213, 0);
-    Color pinBlue = Color.fromARGB(255, 57, 90, 255);
     return Scaffold(
       body: Stack(
         children: [

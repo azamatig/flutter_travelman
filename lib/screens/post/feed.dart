@@ -5,6 +5,7 @@ import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/chat_app/Blabla_screen.dart';
 import 'package:fluttertravelman/screens/comments/comments_screen.dart';
 import 'package:fluttertravelman/screens/offers/poisk_biletov.dart';
+import 'package:fluttertravelman/screens/post/post_details_screen.dart';
 import 'package:fluttertravelman/services/repository.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,7 +40,6 @@ class _FeedScreenState extends State<FeedScreen> {
   List<String> followingUIDs = List<String>();
   List<UserModel> usersList = List<UserModel>();
   Future<List<DocumentSnapshot>> _future;
-  bool _isLiked = false;
 
   DocumentReference reference;
 
@@ -72,7 +72,6 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Container buildItem(DocumentSnapshot doc) {
-    final Color buttonColor = Color.fromARGB(255, 255, 213, 0);
     return Container(
       child: Column(
         children: [
@@ -119,116 +118,130 @@ class _FeedScreenState extends State<FeedScreen> {
               future: _future,
               builder:
                   (context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-                return Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Stack(
-                              children: [
-                                Container(
-                                  height: 350,
-                                  width: 400,
-                                  child: Image.network(
-                                    doc.data()['mediaUrl'],
-                                    fit: BoxFit.cover,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => PostDetails(
+                                  userId: doc.data()['ownerId'],
+                                  desc: doc.data()['description'],
+                                  imgUrl: doc.data()['mediaUrl'],
+                                  documentReference: doc.reference,
+                                  currentUser: currentUser,
+                                )));
+                  },
+                  child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Stack(
+                                children: [
+                                  Container(
+                                    height: 350,
+                                    width: 400,
+                                    child: Image.network(
+                                      doc.data()['mediaUrl'],
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                Positioned(
-                                  bottom: 10,
-                                  left: 20,
-                                  child: Text(
-                                    doc.data()['location'],
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white),
+                                  Positioned(
+                                    bottom: 10,
+                                    left: 20,
+                                    child: Text(
+                                      doc.data()['location'],
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Divider(),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                doc.data()['description'],
-                                style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black54),
+                                ],
                               ),
-                            ),
-                            commentWidget(doc.reference),
-                            Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8.0, left: 10),
-                                  child: GestureDetector(
-                                    onTap: () {},
+                              Divider(),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  doc.data()['description'],
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black54),
+                                ),
+                              ),
+                              commentWidget(doc.reference),
+                              Divider(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8.0, left: 10),
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                          width: 40,
+                                          height: 35,
+                                          child: Icon(
+                                            FontAwesomeIcons.heart,
+                                            size: 20,
+                                          )),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
                                     child: Container(
                                         width: 40,
                                         height: 35,
                                         child: Icon(
-                                          FontAwesomeIcons.heart,
+                                          FontAwesomeIcons.shareAlt,
                                           size: 20,
                                         )),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Container(
-                                      width: 40,
-                                      height: 35,
-                                      child: Icon(
-                                        FontAwesomeIcons.shareAlt,
-                                        size: 20,
-                                      )),
-                                ),
-                                Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8.0, right: 20),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => CommentsScreen(
-                                                    userId: widget.userId,
-                                                    documentReference:
-                                                        doc.reference,
-                                                    user: currentUser,
-                                                  )));
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.centerRight,
-                                      width: 50,
-                                      height: 35,
-                                      child: Icon(
-                                        FontAwesomeIcons.comment,
-                                        size: 20,
+                                  Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8.0, right: 20),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => CommentsScreen(
+                                                      userId: widget.userId,
+                                                      documentReference:
+                                                          doc.reference,
+                                                      user: currentUser,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        width: 50,
+                                        height: 35,
+                                        child: Icon(
+                                          FontAwesomeIcons.commentAlt,
+                                          size: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }),
@@ -296,8 +309,12 @@ class _FeedScreenState extends State<FeedScreen> {
               Icons.search,
               color: Colors.black,
             ),
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PoiskBiletov())),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PoiskBiletov(
+                          userId: widget.userId,
+                        ))),
           )
         ],
       ),
