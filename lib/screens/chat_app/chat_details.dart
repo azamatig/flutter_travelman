@@ -35,7 +35,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
-    print("RCID : ${widget.receiverUid}");
     _repository.getCurrentUser().then((user) {
       setState(() {
         _senderuid = widget.myId;
@@ -180,14 +179,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     });
     compressImage();
     _repository.uploadImageToStorage(imageFile).then((url) {
-      print("URL: $url");
       _repository.uploadImageMsgToDb(url, widget.receiverUid, _senderuid);
     });
     return;
   }
 
   void compressImage() async {
-    print('starting compression');
     final tempDir = await getTemporaryDirectory();
     final path = tempDir.path;
     int rand = Random().nextInt(10000);
@@ -201,12 +198,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     setState(() {
       imageFile = newim2;
     });
-    print('done');
   }
 
   void sendMessage() {
     var text = _messageController.text;
-    print(text);
     Message _message = Message(
         receiverUid: widget.receiverUid,
         senderUid: _senderuid,
@@ -214,18 +209,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         timestamp: FieldValue.serverTimestamp(),
         type: 'text');
     print(
-        "receiverUid: ${widget.receiverUid} , senderUid : $_senderuid , message: $text");
-    print(
         "timestamp: ${DateTime.now().millisecond}, type: ${text != null ? 'text' : 'image'}");
     _repository.addMessageToDb(_message, widget.receiverUid).then((v) {
       _messageController.text = "";
-      print("Message added to db");
     });
   }
 
   // ignore: non_constant_identifier_names
   Widget ChatMessagesListWidget() {
-    print("SENDERUID : $_senderuid");
     return Flexible(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance

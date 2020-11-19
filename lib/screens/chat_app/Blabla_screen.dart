@@ -22,8 +22,6 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     _repository.getCurrentUser().then((user) {
-      print("USER : ${user.displayName}");
-
       _repository.fetchAllUsers(user).then((updatedList) {
         setState(() {
           usersList = updatedList;

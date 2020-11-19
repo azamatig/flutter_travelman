@@ -113,7 +113,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
                             width: 15,
                           ),
                           Text(
-                            'back',
+                            'назад',
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w700, fontSize: 12),
                           ),
@@ -124,7 +124,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
                     top: 50,
                     right: 20,
                     child: Text(
-                      'Lets add your trip',
+                      'Оформить поездку',
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w700, fontSize: 21),
                     )),
@@ -142,7 +142,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
                           width: 10,
                         ),
                         Text(
-                          'From',
+                          'Откуда',
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 13,
@@ -190,7 +190,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
                           width: 10,
                         ),
                         Text(
-                          'To',
+                          'Куда',
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 13,
@@ -241,7 +241,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
                     child: Row(
                       children: [
                         Text(
-                          'Dates',
+                          'Даты',
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
@@ -305,7 +305,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
                     bottom: 370,
                     left: 40,
                     child: Text(
-                      'Class',
+                      'Класс',
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,

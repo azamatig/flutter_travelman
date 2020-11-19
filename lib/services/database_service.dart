@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertravelman/models/lead_model.dart';
+import 'package:fluttertravelman/models/like_model.dart';
 import 'package:fluttertravelman/models/post_model.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 
@@ -45,6 +46,25 @@ class DatabaseService {
       'userName': lead.userName,
       'userPhone': lead.userPhone,
       'email': lead.email,
+    });
+  }
+
+  static void postLike(
+      DocumentReference reference, String name, String id, String profileImg) {
+    var _like = Like(
+        ownerName: name,
+        ownerPhotoUrl: profileImg,
+        ownerUid: id,
+        timeStamp: FieldValue.serverTimestamp());
+    reference.collection('likes').doc(id).set(_like.toMap(_like)).then((value) {
+      print("Post Liked");
+    });
+  }
+
+  static void postUnlike(
+      DocumentReference reference, UserModel currentUser, String id) {
+    reference.collection("likes").doc(id).delete().then((value) {
+      print("Post Unliked");
     });
   }
 }

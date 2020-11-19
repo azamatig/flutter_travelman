@@ -53,7 +53,6 @@ class FirebaseProvider {
 
   Future<List<DocumentSnapshot>> fetchPostLikeDetails(
       DocumentReference reference) async {
-    print("REFERENCE : ${reference.path}");
     QuerySnapshot snapshot = await reference.collection("likes").get();
     return snapshot.docs;
   }
@@ -62,7 +61,6 @@ class FirebaseProvider {
       String userId, DocumentReference reference) async {
     DocumentSnapshot snapshot =
         await reference.collection("likes").doc(userId).get();
-    print('DOC ID : ${snapshot.reference.path}');
     return snapshot.exists;
   }
 
@@ -83,7 +81,6 @@ class FirebaseProvider {
       }
     }
     // fetchSearchPosts(updatedList);
-    print("UPDATED LIST LENGTH : ${updatedList.length}");
     return updatedList;
   }
 
@@ -95,7 +92,7 @@ class FirebaseProvider {
         userNameList.add(querySnapshot.docs[i].data()['name']);
       }
     }
-    print("USERNAMES LIST : ${userNameList.length}");
+
     return userNameList;
   }
 
@@ -207,7 +204,6 @@ class FirebaseProvider {
     QuerySnapshot querySnapshot = await _firestore.collection("users").get();
     for (var i = 0; i < querySnapshot.docs.length; i++) {
       if (querySnapshot.docs[i].id != user.uid) {
-        print("USERNAMES : ${querySnapshot.docs[i].id}");
         userNameList.add(querySnapshot.docs[i].id);
         //querySnapshot.docs[i].reference.collection("collectionPath");
         //userNameList.add(querySnapshot.docs[i].data['displayName']);
@@ -217,17 +213,13 @@ class FirebaseProvider {
     for (var i = 0; i < userNameList.length; i++) {
       if (documentReference.collection(userNameList[i]) != null) {
         if (documentReference.collection(userNameList[i]).get() != null) {
-          print("CHAT USERS : ${userNameList[i]}");
           chatUsersList.add(userNameList[i]);
         }
       }
     }
 
-    print("CHAT USERS LIST : ${chatUsersList.length}");
-
     return chatUsersList;
 
-    // print("USERNAMES LIST : ${userNameList.length}");
     // return userNameList;
   }
 
@@ -240,7 +232,6 @@ class FirebaseProvider {
         //userList.add(querySnapshot.docs[i].data[User.fromMap(mapData)]);
       }
     }
-    print("USERSLIST : ${userList.length}");
     return userList;
   }
 
@@ -263,22 +254,17 @@ class FirebaseProvider {
         .doc(_message.senderUid)
         .collection(receiverUid)
         .add(map)
-        .whenComplete(() {
-      print("Messages added to db");
-    });
+        .whenComplete(() {});
 
     _firestore
         .collection("messages")
         .doc(receiverUid)
         .collection(_message.senderUid)
         .add(map)
-        .whenComplete(() {
-      print("Messages added to db");
-    });
+        .whenComplete(() {});
   }
 
   Future<void> addMessageToDb(Message message, String receiverUid) async {
-    print("Message : ${message.message}");
     var map = message.toMap();
 
     await _firestore
@@ -308,11 +294,7 @@ class FirebaseProvider {
       followingUIDs.add(querySnapshot.docs[i].id);
     }
 
-    print("FOLLOWING UIDS : ${followingUIDs.length}");
-
     for (var i = 0; i < followingUIDs.length; i++) {
-      print("SDDSSD : ${followingUIDs[i]}");
-
       //retrievePostByUID(followingUIDs[i]);
       // fetchUserDetailsById(followingUIDs[i]);
 
@@ -323,9 +305,7 @@ class FirebaseProvider {
           .get();
       // postSnapshot.docs;
       for (var i = 0; i < postSnapshot.docs.length; i++) {
-        print("dad : ${postSnapshot.docs[i].id}");
         list.add(postSnapshot.docs[i]);
-        print("ads : ${list.length}");
       }
     }
 
@@ -345,9 +325,7 @@ class FirebaseProvider {
       followingUIDs.add(querySnapshot.docs[i].id);
     }
 
-    for (var i = 0; i < followingUIDs.length; i++) {
-      print("DDDD : ${followingUIDs[i]}");
-    }
+    for (var i = 0; i < followingUIDs.length; i++) {}
     return followingUIDs;
   }
 }

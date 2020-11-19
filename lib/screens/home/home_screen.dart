@@ -67,6 +67,7 @@ class _MainScreenState extends State<MainScreen> {
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 FeedScreen(
+                  name: user.name,
                   userId: userId,
                   profileImgUrl: user.profileImageUrl,
                 ),
