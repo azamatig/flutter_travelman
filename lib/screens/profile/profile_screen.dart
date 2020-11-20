@@ -6,12 +6,9 @@ import 'package:getwidget/components/loader/gf_loader.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String userId;
-  final String name;
-  final String bio;
-  final String location;
-  final String age;
+  final String currentUserId;
 
-  ProfileScreen({this.userId, this.name, this.bio, this.location, this.age});
+  ProfileScreen({this.userId, this.currentUserId});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -57,18 +54,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             Row(
                               children: [
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      EditProfileScreen(
-                                                          user: user)))
-                                        }),
+                                Visibility(
+                                  visible: user.id != widget.currentUserId
+                                      ? false
+                                      : true,
+                                  child: IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                      ),
+                                      onPressed: () => {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        EditProfileScreen(
+                                                            user: user)))
+                                          }),
+                                ),
                               ],
                             ),
                           ],

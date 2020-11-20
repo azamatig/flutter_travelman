@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_data.dart';
 import 'package:fluttertravelman/models/user_model.dart';
+import 'package:fluttertravelman/screens/discovery/discover_users.dart';
 import 'package:fluttertravelman/screens/offers/offers_screen.dart';
 import 'package:fluttertravelman/screens/post/feed.dart';
 import 'package:fluttertravelman/screens/post/third_screen.dart';
@@ -81,10 +82,10 @@ class _MainScreenState extends State<MainScreen> {
                   profileImageUrl: user.profileImageUrl,
                   isOperator: user.isOperator,
                 ),
-                ToursScreen(),
+                SearchScreen(),
                 ProfileScreen(
-                  userId: userId,
-                ), // in case of emergency break Class
+                    currentUserId: userId,
+                    userId: userId), // in case of emergency break Class
               ],
             );
           }),
