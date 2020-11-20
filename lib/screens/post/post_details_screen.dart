@@ -14,13 +14,18 @@ class PostDetails extends StatefulWidget {
   final String imgUrl;
   final DocumentReference documentReference;
   final UserModel currentUser;
+  final DocumentSnapshot documentSnapshot;
+  final UserModel user, currentuser;
 
   PostDetails(
       {this.userId,
       this.desc,
       this.imgUrl,
       this.documentReference,
-      this.currentUser});
+      this.currentUser,
+      this.documentSnapshot,
+      this.user,
+      this.currentuser});
 
   @override
   _PostDetailsState createState() => _PostDetailsState();

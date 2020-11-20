@@ -49,13 +49,24 @@ dependencies:
   time_formatter: ^1.0.0+5
   shared_preferences: ^0.5.12+4
   telebot: ^1.0.3
+  readmore: ^1.0.1
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: "^0.8.0"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  image_path_android: "assets/images/icon-android.jpeg"
+  image_path_ios: "assets/images/icon-ios.jpeg"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+
+
 
 # The following section is specific to Flutter.
 flutter:

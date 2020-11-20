@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/chat_app/Blabla_screen.dart';
@@ -11,6 +10,7 @@ import 'package:fluttertravelman/services/repository.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertravelman/services/database_service.dart';
+import 'package:readmore/readmore.dart';
 
 class FeedScreen extends StatefulWidget {
   static final String id = 'feed_screen';
@@ -38,30 +38,6 @@ class _FeedScreenState extends State<FeedScreen> {
   static String collectionDbName = 'stories';
   CollectionReference dbInstance =
       FirebaseFirestore.instance.collection(collectionDbName);
-
-  void fetchFeed() async {
-    auth.User currentUser = await _repository.getCurrentUser();
-
-    UserModel user = await _repository.fetchUserDetailsById(currentUser.uid);
-    setState(() {
-      this.currentUser = user;
-    });
-
-    followingUIDs = await _repository.fetchFollowingUids(currentUser);
-
-    for (var i = 0; i < followingUIDs.length; i++) {
-      // _future = _repository.retrievePostByUID(followingUIDs[i]);
-      this.user = await _repository.fetchUserDetailsById(followingUIDs[i]);
-      usersList.add(this.user);
-
-      for (var i = 0; i < usersList.length; i++) {
-        setState(() {
-          followingUser = usersList[i];
-        });
-      }
-    }
-    _future = _repository.fetchFeed(currentUser);
-  }
 
   Container buildItem(DocumentSnapshot doc) {
     return Container(
@@ -209,12 +185,17 @@ class _FeedScreenState extends State<FeedScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text(
+                              child: ReadMoreText(
                                 doc.data()['description'],
                                 style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black54),
+                                trimLines: 2,
+                                colorClickableText: Colors.blue,
+                                trimMode: TrimMode.Line,
+                                trimCollapsedText: 'Читать полностью',
+                                trimExpandedText: 'меньше',
                               ),
                             ),
                             commentWidget(doc.reference),

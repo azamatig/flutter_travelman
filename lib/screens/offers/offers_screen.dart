@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/screens/offers/offer_details.dart';
+import 'package:fluttertravelman/utils/const.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:readmore/readmore.dart';
 
 class OffersScreen extends StatefulWidget {
   static final String id = 'feed_screen';
@@ -33,7 +35,6 @@ class _OffersScreenState extends State<OffersScreen> {
   final db = FirebaseFirestore.instance;
 
   Container buildItem(DocumentSnapshot doc) {
-    final Color buttonColor = Color.fromARGB(255, 255, 213, 0);
     return Container(
       child: Column(
         children: [
@@ -115,12 +116,17 @@ class _OffersScreenState extends State<OffersScreen> {
                       Divider(),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
+                        child: ReadMoreText(
                           doc.data()['description'],
                           style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: Colors.black54),
+                          trimLines: 2,
+                          colorClickableText: Colors.blue,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: 'Читать полностью',
+                          trimExpandedText: 'меньше',
                         ),
                       ),
                       Divider(),
@@ -197,7 +203,7 @@ class _OffersScreenState extends State<OffersScreen> {
                             color: Colors.black),
                         textAlign: TextAlign.center,
                       ),
-                      color: buttonColor,
+                      color: pinYellow,
                     ),
                   ),
                 ),

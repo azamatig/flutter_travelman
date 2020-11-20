@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/services/location.dart';
+import 'package:fluttertravelman/utils/const.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,9 +56,25 @@ class _Uploader extends State<Uploader> {
 
   Widget build(BuildContext context) {
     return file == null
-        ? IconButton(
-            icon: Icon(Icons.file_upload),
-            onPressed: () => {_selectImage(context)})
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                  icon: Icon(
+                    FontAwesomeIcons.plusCircle,
+                    color: pinBlue,
+                    size: 40,
+                  ),
+                  onPressed: () => {_selectImage(context)}),
+              SizedBox(height: 20),
+              Text(
+                'Сделать новый Post',
+                style: GoogleFonts.poppins(
+                    fontSize: 20, fontWeight: FontWeight.w600),
+              )
+            ],
+          )
         : Scaffold(
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
@@ -69,7 +88,13 @@ class _Uploader extends State<Uploader> {
               ),
               actions: <Widget>[
                 FlatButton(
-                    onPressed: postImage,
+                    onPressed: () {
+                      if (widget.isOperator == true) {
+                        _selectWhereToPost(context);
+                      } else {
+                        postImage();
+                      }
+                    },
                     child: Text(
                       "Post",
                       style: TextStyle(
@@ -146,7 +171,6 @@ class _Uploader extends State<Uploader> {
     return showDialog<Null>(
       context: parentContext,
       barrierDismissible: false, // user must tap button!
-
       builder: (BuildContext context) {
         final _picker = ImagePicker();
         return SimpleDialog(
@@ -188,6 +212,38 @@ class _Uploader extends State<Uploader> {
     );
   }
 
+  _selectWhereToPost(context) {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Отправиать post'),
+          children: <Widget>[
+            SimpleDialogOption(
+                child: const Text('Турист лента'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  postImage();
+                }),
+            SimpleDialogOption(
+                child: const Text('Туроператор лента'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  addToOperatorFeed();
+                }),
+            SimpleDialogOption(
+              child: const Text("Отмена"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   void clearImage() {
     setState(() {
       file = null;
@@ -200,6 +256,27 @@ class _Uploader extends State<Uploader> {
     });
     uploadImage(file).then((String data) {
       postToFireStore(
+          profileImgUrl: widget.profileImageUrl,
+          mediaUrl: data,
+          name: widget.name,
+          isOperator: widget.isOperator,
+          userId: widget.userId,
+          description: descriptionController.text,
+          location: locationController.text);
+    }).then((_) {
+      setState(() {
+        file = null;
+        uploading = false;
+      });
+    });
+  }
+
+  void addToOperatorFeed() {
+    setState(() {
+      uploading = true;
+    });
+    uploadImage(file).then((String data) {
+      postToOperator(
           profileImgUrl: widget.profileImageUrl,
           mediaUrl: data,
           name: widget.name,
@@ -304,35 +381,43 @@ void postToFireStore(
     String profileImgUrl,
     String description,
     bool isOperator}) async {
-  if (isOperator == true) {
-    var reference = FirebaseFirestore.instance.collection('offers');
-    reference.add({
-      "username": name,
-      "ownerImgUrl": profileImgUrl,
-      "location": location,
-      "likes": {},
-      "mediaUrl": mediaUrl,
-      "description": description,
-      "ownerId": userId,
-      "timestamp": DateTime.now(),
-    }).then((DocumentReference doc) {
-      String docId = doc.id;
-      reference.doc(docId).update({"offerId": docId});
-    });
-  } else {
-    var reference = FirebaseFirestore.instance.collection('posts');
-    reference.add({
-      "username": name,
-      "ownerImgUrl": profileImgUrl,
-      "location": location,
-      "likes": {},
-      "mediaUrl": mediaUrl,
-      "description": description,
-      "ownerId": userId,
-      "timestamp": DateTime.now(),
-    }).then((DocumentReference doc) {
-      String docId = doc.id;
-      reference.doc(docId).update({"postId": docId});
-    });
-  }
+  var reference = FirebaseFirestore.instance.collection('posts');
+  reference.add({
+    "username": name,
+    "ownerImgUrl": profileImgUrl,
+    "location": location,
+    "likes": {},
+    "mediaUrl": mediaUrl,
+    "description": description,
+    "ownerId": userId,
+    "timestamp": DateTime.now(),
+  }).then((DocumentReference doc) {
+    String docId = doc.id;
+    reference.doc(docId).update({"postId": docId});
+  });
+}
+
+void postToOperator(
+    {BuildContext context,
+    String name,
+    String userId,
+    String mediaUrl,
+    String location,
+    String profileImgUrl,
+    String description,
+    bool isOperator}) async {
+  var reference = FirebaseFirestore.instance.collection('offers');
+  reference.add({
+    "username": name,
+    "ownerImgUrl": profileImgUrl,
+    "location": location,
+    "likes": {},
+    "mediaUrl": mediaUrl,
+    "description": description,
+    "ownerId": userId,
+    "timestamp": DateTime.now(),
+  }).then((DocumentReference doc) {
+    String docId = doc.id;
+    reference.doc(docId).update({"offerId": docId});
+  });
 }
