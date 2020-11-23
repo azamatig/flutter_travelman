@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_data.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/profile/profile_screen.dart';
-import 'package:fluttertravelman/services/database_service.dart';
+import 'package:fluttertravelman/services/firebase_provider.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -53,16 +53,27 @@ class _SearchScreenState extends State<SearchScreen> {
         title: TextField(
           controller: _searchController,
           decoration: InputDecoration(
+            fillColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-            border: InputBorder.none,
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
             hintText: 'Поиск',
             prefixIcon: Icon(
               Icons.search,
               size: 30.0,
+              color: Colors.black,
             ),
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.clear,
+                color: Colors.black,
               ),
               onPressed: _clearSearch,
             ),
@@ -71,10 +82,11 @@ class _SearchScreenState extends State<SearchScreen> {
           onSubmitted: (input) {
             if (input.isNotEmpty) {
               setState(() {
-                _users = DatabaseService.searchUsers(input);
+                _users = FirebaseProvider.searchUsers(input);
               });
             }
           },
+          cursorColor: Colors.black,
         ),
       ),
       body: _users == null
@@ -91,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 }
                 if (snapshot.data.documents.length == 0) {
                   return Center(
-                    child: Text('No users found! Please try again.'),
+                    child: Text('Не найдено! Регистры букв долны совпадать'),
                   );
                 }
                 return ListView.builder(

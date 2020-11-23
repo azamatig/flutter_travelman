@@ -5,7 +5,6 @@ import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/discovery/discover_users.dart';
 import 'package:fluttertravelman/screens/offers/offers_screen.dart';
 import 'package:fluttertravelman/screens/post/feed.dart';
-import 'package:fluttertravelman/screens/post/third_screen.dart';
 import 'package:fluttertravelman/screens/post/upload_post_screen.dart';
 import 'package:fluttertravelman/screens/profile/profile_screen.dart';
 import 'package:fluttertravelman/utils/const.dart';

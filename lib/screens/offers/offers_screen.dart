@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:fluttertravelman/screens/offers/offer_details.dart';
 import 'package:fluttertravelman/utils/const.dart';
 
@@ -62,18 +64,6 @@ class _OffersScreenState extends State<OffersScreen> {
                         color: Colors.black),
                   ),
                 ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Container(
-                      child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      FontAwesomeIcons.ellipsisH,
-                      size: 20,
-                    ),
-                  )),
-                )
               ],
             ),
           ),
@@ -95,8 +85,8 @@ class _OffersScreenState extends State<OffersScreen> {
                           Container(
                             height: 350,
                             width: 400,
-                            child: Image.network(
-                              doc.data()['mediaUrl'],
+                            child: CachedNetworkImage(
+                              imageUrl: doc.data()['mediaUrl'] ?? '',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -104,7 +94,7 @@ class _OffersScreenState extends State<OffersScreen> {
                             bottom: 10,
                             left: 20,
                             child: Text(
-                              doc.data()['location'],
+                              doc.data()['location'] ?? '',
                               style: GoogleFonts.poppins(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w900,
@@ -117,7 +107,7 @@ class _OffersScreenState extends State<OffersScreen> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ReadMoreText(
-                          doc.data()['description'],
+                          doc.data()['description'] ?? '',
                           style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -153,24 +143,14 @@ class _OffersScreenState extends State<OffersScreen> {
                             child: Container(
                                 width: 40,
                                 height: 35,
-                                child: Icon(
-                                  FontAwesomeIcons.shareAlt,
-                                  size: 20,
+                                child: IconButton(
+                                  icon:
+                                      Icon(FontAwesomeIcons.shareAlt, size: 20),
+                                  onPressed: () async {
+                                    await FlutterShareMe().shareToWhatsApp(
+                                        msg: 'ссылка на приложение');
+                                  },
                                 )),
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: 8.0, right: 20),
-                            child: Container(
-                              alignment: Alignment.centerRight,
-                              width: 50,
-                              height: 35,
-                              child: Icon(
-                                FontAwesomeIcons.bookmark,
-                                size: 20,
-                              ),
-                            ),
                           ),
                         ],
                       )
@@ -181,7 +161,7 @@ class _OffersScreenState extends State<OffersScreen> {
                   top: 335,
                   left: 155,
                   child: Container(
-                    width: 75,
+                    width: 80,
                     height: 30,
                     child: GFButton(
                       shape: GFButtonShape.pills,
@@ -196,10 +176,10 @@ class _OffersScreenState extends State<OffersScreen> {
                                     )))
                       },
                       child: Text(
-                        'Join',
+                        'Войти',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w800,
-                            fontSize: 16,
+                            fontSize: 15,
                             color: Colors.black),
                         textAlign: TextAlign.center,
                       ),

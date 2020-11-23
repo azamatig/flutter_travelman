@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/services/auth_service.dart';
-import 'package:fluttertravelman/services/database_service.dart';
+import 'package:fluttertravelman/services/firebase_provider.dart';
 import 'package:fluttertravelman/services/storage_service.dart';
 import 'package:fluttertravelman/utils/const.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -96,7 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           age: _age,
           location: _location);
       // Database update
-      DatabaseService.updateUser(user);
+      FirebaseProvider.updateUser(user);
 
       Navigator.pop(context);
     }

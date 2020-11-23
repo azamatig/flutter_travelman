@@ -78,6 +78,4 @@ class Repository {
 
   Future<List<String>> fetchFollowingUids(auth.User user) =>
       _firebaseProvider.fetchFollowingUids(user);
-
-//Future<List<DocumentSnapshot>> retrievePostByUID(String uid) => _firebaseProvider.retrievePostByUID(uid);
 }

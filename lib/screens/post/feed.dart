@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:fluttertravelman/models/user_model.dart';
-import 'package:fluttertravelman/screens/chat_app/Blabla_screen.dart';
+import 'package:fluttertravelman/screens/chat_app/chat_screen.dart';
 import 'package:fluttertravelman/screens/comments/comments_screen.dart';
 import 'package:fluttertravelman/screens/home/likes_screen.dart';
 import 'package:fluttertravelman/screens/offers/poisk_biletov.dart';
 import 'package:fluttertravelman/screens/post/post_details_screen.dart';
+import 'package:fluttertravelman/screens/story/story_main.dart';
+import 'package:fluttertravelman/services/firebase_provider.dart';
 import 'package:fluttertravelman/services/repository.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:fluttertravelman/services/database_service.dart';
 import 'package:readmore/readmore.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -32,271 +34,243 @@ class _FeedScreenState extends State<FeedScreen> {
   List<String> followingUIDs = List<String>();
   List<UserModel> usersList = List<UserModel>();
   bool _isLiked = false;
-  Future<List<DocumentSnapshot>> _future;
 
   DocumentReference reference;
-  static String collectionDbName = 'stories';
-  CollectionReference dbInstance =
-      FirebaseFirestore.instance.collection(collectionDbName);
 
   Container buildItem(DocumentSnapshot doc) {
     return Container(
-      child: FutureBuilder(
-          future: _future,
-          builder: (context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0, bottom: 5, top: 15),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 15,
-                              child: ClipOval(
-                                child: Image.network(
-                                  doc.data()['ownerImgUrl'],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              child: Text(
-                                doc.data()['username'] ?? '-',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ],
+        child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 5.0, bottom: 5, top: 15),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 15,
+                      child: ClipOval(
+                        child: Image.network(
+                          doc.data()['ownerImgUrl'] ?? '-',
                         ),
                       ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Container(
-                            child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            FontAwesomeIcons.ellipsisH,
-                            size: 20,
-                          ),
-                        )),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: Text(
+                        doc.data()['username'] ?? '-',
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ],
                 ),
-                Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Stack(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => PostDetails(
-                                                  userId: doc.data()['ownerId'],
-                                                  desc:
-                                                      doc.data()['description'],
-                                                  imgUrl:
-                                                      doc.data()['mediaUrl'],
-                                                  documentReference:
-                                                      doc.reference,
-                                                  currentUser: currentUser,
-                                                )));
-                                  },
-                                  child: Container(
-                                    height: 350,
-                                    width: 400,
-                                    child: Image.network(
-                                      doc.data()['mediaUrl'],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 10,
-                                  left: 20,
-                                  child: Text(
-                                    doc.data()['location'],
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ],
+              ),
+            ],
+          ),
+        ),
+        Card(
+          semanticContainer: true,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          color: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => PostDetails(
+                                          userId: doc.data()['ownerId'],
+                                          desc: doc.data()['description'],
+                                          imgUrl: doc.data()['mediaUrl'],
+                                          documentReference: doc.reference,
+                                          currentUser: currentUser,
+                                        )));
+                          },
+                          child: Container(
+                            height: 350,
+                            width: 400,
+                            child: Image.network(
+                              doc.data()['mediaUrl'] ?? '-',
+                              fit: BoxFit.cover,
                             ),
-                            Divider(),
-                            FutureBuilder(
-                              future: _repository.fetchPostLikes(doc.reference),
-                              builder: ((context,
-                                  AsyncSnapshot<List<DocumentSnapshot>>
-                                      likesSnapshot) {
-                                if (likesSnapshot.hasData) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: ((context) =>
-                                                  LikesScreen(
-                                                    user: currentUser,
-                                                    documentReference:
-                                                        doc.reference,
-                                                  ))));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0),
-                                      child: likesSnapshot.data.length > 1
-                                          ? Text(
-                                              "Нравится ${likesSnapshot.data[0].data()['ownerName']} и ${(likesSnapshot.data.length - 1).toString()} другие",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          : Text(likesSnapshot.data.length == 1
-                                              ? "Нравится ${likesSnapshot.data[0].data()['ownerName']}"
-                                              : "0 Нравится"),
-                                    ),
-                                  );
-                                } else {
-                                  return Center(child: SizedBox());
-                                }
-                              }),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          left: 20,
+                          child: Text(
+                            doc.data()['location'] ?? '-',
+                            style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    FutureBuilder(
+                      future: _repository.fetchPostLikes(doc.reference),
+                      builder: ((context,
+                          AsyncSnapshot<List<DocumentSnapshot>> likesSnapshot) {
+                        if (likesSnapshot.hasData) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => LikesScreen(
+                                            user: currentUser,
+                                            documentReference: doc.reference,
+                                          ))));
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: likesSnapshot.data.length > 1
+                                  ? Text(
+                                      "Нравится ${likesSnapshot.data[0].data()['ownerName']} и ${(likesSnapshot.data.length - 1).toString()} другие",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text(likesSnapshot.data.length == 1
+                                      ? "Нравится ${likesSnapshot.data[0].data()['ownerName']}"
+                                      : "0 Нравится"),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: ReadMoreText(
-                                doc.data()['description'],
-                                style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black54),
-                                trimLines: 2,
-                                colorClickableText: Colors.blue,
-                                trimMode: TrimMode.Line,
-                                trimCollapsedText: 'Читать полностью',
-                                trimExpandedText: 'меньше',
+                          );
+                        } else {
+                          return Center(child: SizedBox());
+                        }
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ReadMoreText(
+                        doc.data()['description'],
+                        style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54),
+                        trimLines: 2,
+                        colorClickableText: Colors.blue,
+                        trimMode: TrimMode.Line,
+                        trimCollapsedText: 'Читать всё',
+                        trimExpandedText: 'меньше',
+                      ),
+                    ),
+                    commentWidget(doc.reference),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0, left: 5),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (!_isLiked) {
+                                setState(() {
+                                  _isLiked = true;
+                                });
+                                // saveLikeValue(_isLiked);
+                                FirebaseProvider.postLike(
+                                    doc.reference,
+                                    widget.name,
+                                    widget.userId,
+                                    widget.profileImgUrl);
+                              } else {
+                                setState(() {
+                                  _isLiked = false;
+                                });
+                                //saveLikeValue(_isLiked);
+                                FirebaseProvider.postUnlike(
+                                    doc.reference, currentUser, widget.userId);
+                              }
+                            },
+                            child: _isLiked
+                                ? Container(
+                                    width: 40,
+                                    height: 35,
+                                    child: Icon(
+                                      FontAwesomeIcons.heart,
+                                      color: Colors.black,
+                                      size: 20,
+                                    ))
+                                : Container(
+                                    width: 40,
+                                    height: 35,
+                                    child: Icon(
+                                      FontAwesomeIcons.heart,
+                                      color: Colors.red,
+                                      size: 20,
+                                    )),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Container(
+                              width: 40,
+                              height: 35,
+                              child: IconButton(
+                                icon: Icon(FontAwesomeIcons.shareAlt, size: 20),
+                                onPressed: () async {
+                                  await FlutterShareMe().shareToWhatsApp(
+                                      msg: 'ссылка на приложение');
+                                },
+                              )),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.0, right: 20),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => CommentsScreen(
+                                            userId: widget.userId,
+                                            documentReference: doc.reference,
+                                            user: currentUser,
+                                          )));
+                            },
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              width: 50,
+                              height: 35,
+                              child: Icon(
+                                FontAwesomeIcons.commentAlt,
+                                size: 20,
                               ),
                             ),
-                            commentWidget(doc.reference),
-                            Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8.0, left: 5),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (!_isLiked) {
-                                        setState(() {
-                                          _isLiked = true;
-                                        });
-                                        // saveLikeValue(_isLiked);
-                                        DatabaseService.postLike(
-                                            doc.reference,
-                                            widget.name,
-                                            widget.userId,
-                                            widget.profileImgUrl);
-                                      } else {
-                                        setState(() {
-                                          _isLiked = false;
-                                        });
-                                        //saveLikeValue(_isLiked);
-                                        DatabaseService.postUnlike(
-                                            doc.reference,
-                                            currentUser,
-                                            widget.userId);
-                                      }
-                                    },
-                                    child: _isLiked
-                                        ? Container(
-                                            width: 40,
-                                            height: 35,
-                                            child: Icon(
-                                              FontAwesomeIcons.heart,
-                                              size: 20,
-                                            ))
-                                        : Container(
-                                            width: 40,
-                                            height: 35,
-                                            child: Icon(
-                                              FontAwesomeIcons.heart,
-                                              color: Colors.red,
-                                              size: 20,
-                                            )),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Container(
-                                      width: 40,
-                                      height: 35,
-                                      child: Icon(
-                                        FontAwesomeIcons.shareAlt,
-                                        size: 20,
-                                      )),
-                                ),
-                                Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8.0, right: 20),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => CommentsScreen(
-                                                    userId: widget.userId,
-                                                    documentReference:
-                                                        doc.reference,
-                                                    user: currentUser,
-                                                  )));
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.centerRight,
-                                      width: 50,
-                                      height: 35,
-                                      child: Icon(
-                                        FontAwesomeIcons.commentAlt,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            );
-          }),
-    );
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    ));
   }
 
   Widget commentWidget(DocumentReference reference) {
@@ -370,6 +344,10 @@ class _FeedScreenState extends State<FeedScreen> {
       body: ListView(
         padding: EdgeInsets.all(8),
         children: [
+          StoryWidget(
+            userId: widget.userId,
+            profileImgUrl: widget.profileImgUrl,
+          ),
           StreamBuilder<QuerySnapshot>(
               stream: db.collection('posts').snapshots(),
               builder: (context, snapshot) {

@@ -50,8 +50,10 @@ dependencies:
   shared_preferences: ^0.5.12+4
   telebot: ^1.0.3
   readmore: ^1.0.1
-
-
+  flutter_share_me: ^0.9.2
+  flutter_stories: ^0.2.1+1
+  flutter_instagram_stories: ^0.1.5+5
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

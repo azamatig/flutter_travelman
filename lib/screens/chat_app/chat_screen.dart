@@ -122,12 +122,6 @@ class ChatSearch extends SearchDelegate<String> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    return null;
-  }
-
-  @override
   Widget buildSuggestions(BuildContext context) {
     final List<UserModel> suggestionsList = query.isEmpty
         ? usersList
@@ -153,5 +147,11 @@ class ChatSearch extends SearchDelegate<String> {
             title: Text(suggestionsList[index].name),
           )),
     );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    throw UnimplementedError();
   }
 }

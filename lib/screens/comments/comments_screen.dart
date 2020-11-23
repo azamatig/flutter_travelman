@@ -176,16 +176,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
   }
 
   Widget commentItem(DocumentSnapshot snapshot) {
-    /*  var time;
-    List<String> dateAndTime;
-    print('${snapshot.data()['timestamp'].toString()}');
-    if (snapshot.data()['timestamp'].toString() != null) {
+    var time;
+    if (snapshot.data()['timestamp'] != null) {
       Timestamp timestamp = snapshot.data()['timestamp'];
-      print('${timestamp.seconds}');
-      print('${timestamp.toDate()}');
-      time = timestamp.toDate().toString();
-      dateAndTime = time.split(" ");
-    }*/
+      DateTime _time = DateTime.parse(timestamp.toDate().toString());
+      readTimeStamp(_time);
+      time = _time;
+    }
 
     return Padding(
       padding: const EdgeInsets.all(12.0),
@@ -201,15 +198,28 @@ class _CommentsScreenState extends State<CommentsScreen> {
           SizedBox(
             width: 15.0,
           ),
-          Row(
-            children: <Widget>[
-              Text(snapshot.data()['ownerName'],
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Text(snapshot.data()['comment']),
+                child: Text(formatOnlyDate(time),
+                    style: GoogleFonts.poppins(
+                        fontSize: 8, color: Colors.black45)),
+              ),
+              Row(
+                children: <Widget>[
+                  Text(snapshot.data()['ownerName'] + '  -',
+                      style: GoogleFonts.poppins(
+                          fontSize: 15, color: Colors.black)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(snapshot.data()['comment'],
+                        style: GoogleFonts.poppins(
+                            fontSize: 15, color: Colors.black)),
+                  ),
+                ],
               ),
             ],
           )

@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:fluttertravelman/screens/home/Login_screen.dart';
 import 'package:fluttertravelman/screens/home/Sign_up_screen.dart';
 import 'package:fluttertravelman/screens/home/enter_app_screen.dart';
 import 'package:fluttertravelman/screens/home/home_screen.dart';
 import 'package:fluttertravelman/utils/const.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:provider/provider.dart';
 
 import '../post/feed.dart';
@@ -19,7 +19,7 @@ class InitialScreen extends StatelessWidget {
           Provider.of<UserData>(context).currentUserId = snapshot.data.uid;
           return MainScreen();
         } else {
-          return LoginScreen();
+          return GFLoader();
         }
       },
     );

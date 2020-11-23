@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
         future: _initialization,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return GFLoader();
+            return Center(
+              child: Container(child: Text('Сбой на сервере')),
+            );
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return InitialScreen();

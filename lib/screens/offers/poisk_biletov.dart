@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertravelman/models/lead_model.dart';
 import 'package:fluttertravelman/models/user_model.dart';
 import 'package:fluttertravelman/screens/offers/thank_you_page.dart';
-import 'package:fluttertravelman/services/database_service.dart';
+import 'package:fluttertravelman/services/firebase_provider.dart';
 import 'package:fluttertravelman/utils/const.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
@@ -73,7 +73,7 @@ class _PoiskBiletovState extends State<PoiskBiletov> {
       userPhone: userPhone,
       email: email,
     );
-    DatabaseService.createLead(lead);
+    FirebaseProvider.createLead(lead);
     bot
         .sendMessage(
             chatId: "-482276315",
